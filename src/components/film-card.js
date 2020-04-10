@@ -1,9 +1,14 @@
+const DescriptionSettings = {
+  MAX_LENGTH: 140,
+  SPLIT_LENGTH: 139
+};
+
 const createFilmCardTemplate = (film) => {
   const {poster, title, rating, year, duration, genre, description, comments} = film;
 
-  const filmDescription = description.length > 140 ? description.slice(0, 139).concat(`...`) : description;
-  const filmCommentsCount = comments === 1 ? `${comments} comment` : `${comments} comments`;
+  const filmDescription = description.length > DescriptionSettings.MAX_LENGTH ? description.slice(0, DescriptionSettings.SPLIT_LENGTH).concat(`...`) : description;
 
+  const filmCommentsCount = comments === 1 ? `${comments} comment` : `${comments} comments`;
 
   return (
     `<article class="film-card">
