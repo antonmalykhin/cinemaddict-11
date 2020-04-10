@@ -1,4 +1,4 @@
-export const createFilmListTemplate = () => {
+const createFilmListTemplate = () => {
   return (
     `<section class="films">
       <section class="films-list">
@@ -8,3 +8,5 @@ export const createFilmListTemplate = () => {
     </section>`
   );
 };
+
+export {createFilmListTemplate};

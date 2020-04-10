@@ -1,4 +1,4 @@
-export const createFilmDetailsTemplate = () => {
+const createFilmDetailsTemplate = () => {
   return (
     `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -171,3 +171,5 @@ export const createFilmDetailsTemplate = () => {
   </section>`
   );
 };
+
+export {createFilmDetailsTemplate};

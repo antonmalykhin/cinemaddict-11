@@ -1,4 +1,4 @@
-export const createUserProfileTemplate = () => {
+const createUserProfileTemplate = () => {
   return (
     `<section class="header__profile profile">
       <p class="profile__rating">Movie Buff</p>
@@ -6,3 +6,5 @@ export const createUserProfileTemplate = () => {
     </section>`
   );
 };
+
+export {createUserProfileTemplate};

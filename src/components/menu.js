@@ -1,4 +1,4 @@
-export const createMenuTemplate = () => {
+const createMenuTemplate = () => {
   return (
     `<nav class="main-navigation">
       <div class="main-navigation__items">
@@ -11,3 +11,5 @@ export const createMenuTemplate = () => {
     </nav>`
   );
 };
+
+export {createMenuTemplate};
