@@ -7,11 +7,15 @@ import {createFilmCardTemplate} from './components/film-card.js';
 import {createShowMoreButtonTemplate} from './components/show-more-btn.js';
 import {createFooterStatisticsTemplate} from './components/footer-statistics.js';
 import {createFilmDetailsTemplate} from './components/film-details.js';
+import {createCommentsTemplate} from './components/film-comments.js';
+import {createCommentTemplate} from './components/film-comment.js';
 
 import {generateFilm} from './mock/film.js';
+import {generateComments} from './mock/comments.js';
 
 const FILMS_COUNT = 5;
 const EXTRA_FILMS_NUM = 2;
+const COMMENTS_COUNT = 4;
 
 const render = (container, element, place = `beforeend`) => {
   container.insertAdjacentHTML(place, element);
@@ -54,4 +58,16 @@ for (let i = 0; i < EXTRA_FILMS_NUM; i++) {
 const footerStatisticsElement = siteBodyElement.querySelector(`.footer__statistics`);
 
 render(footerStatisticsElement, createFooterStatisticsTemplate());
-render(siteBodyElement, createFilmDetailsTemplate());
+render(siteBodyElement, createFilmDetailsTemplate(film));
+
+
+const comments = generateComments(COMMENTS_COUNT);
+
+const commentContainer = siteBodyElement.querySelector(`.film-details__comments-wrap`);
+render(commentContainer, createCommentsTemplate(comments));
+
+const commentsListElement = commentContainer.querySelector(`.film-details__comments-list`);
+
+for (let i = 0; i < COMMENTS_COUNT; i++) {
+  render(commentsListElement, createCommentTemplate(comments[i]));
+}
