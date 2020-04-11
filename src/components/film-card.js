@@ -4,7 +4,7 @@ const DescriptionSettings = {
 };
 
 const createFilmCardTemplate = (film) => {
-  const {poster, title, rating, year, duration, genre, description, comments} = film;
+  const {poster: poster, title: title, rating: rating, release: year, runtime: duration, genres: genres, description: description, comments: comments} = film;
 
   const filmDescription = description.length > DescriptionSettings.MAX_LENGTH ? description.slice(0, DescriptionSettings.SPLIT_LENGTH).concat(`...`) : description;
 
@@ -17,7 +17,7 @@ const createFilmCardTemplate = (film) => {
       <p class="film-card__info">
         <span class="film-card__year">${year}</span>
         <span class="film-card__duration">${duration}</span>
-        <span class="film-card__genre">${genre}</span>
+        <span class="film-card__genre">${genres[0]}</span>
       </p>
       <img src=${poster} alt="" class="film-card__poster">
       <p class="film-card__description">${filmDescription}</p>
