@@ -1,5 +1,5 @@
 import {createUserProfileTemplate} from './components/user-profile.js';
-import {createMenuTemplate} from './components/menu.js';
+import {createFiltersTemplate} from './components/filter.js';
 import {createSortTemplate} from './components/sorting.js';
 import {createFilmListTemplate} from './components/films-list.js';
 import {createFilmListExtraTemplate} from './components/films-list-extra.js';
@@ -10,12 +10,22 @@ import {createFilmDetailsTemplate} from './components/film-details.js';
 import {createCommentsTemplate} from './components/film-comments.js';
 import {createCommentTemplate} from './components/film-comment.js';
 
-import {generateFilm} from './mock/film.js';
+import {generateFilms} from './mock/film.js';
 import {generateComments} from './mock/comments.js';
+import {generateUser} from './mock/user.js';
+import {generateFilters} from './mock/filter.js';
 
-const FILMS_COUNT = 5;
+import {getRandomArrayItem, getRandomIntegerNumber} from './utils.js';
+
+const FILMS_COUNT = 25;
+const SHOWING_FILMS_COUNT_ON_START = 5;
+const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 const EXTRA_FILMS_NUM = 2;
-const COMMENTS_COUNT = 4;
+
+const moviesInsideRange = {
+  FROM: 1000,
+  TO: 500000
+};
 
 const render = (container, element, place = `beforeend`) => {
   container.insertAdjacentHTML(place, element);
@@ -24,23 +34,39 @@ const siteBodyElement = document.querySelector(`body`);
 const siteHeaderElement = siteBodyElement.querySelector(`.header`);
 const siteMainElement = siteBodyElement.querySelector(`.main`);
 
-render(siteHeaderElement, createUserProfileTemplate());
-render(siteMainElement, createMenuTemplate());
+const user = generateUser();
+const filters = generateFilters();
+
+render(siteHeaderElement, createUserProfileTemplate(user));
+render(siteMainElement, createFiltersTemplate(filters));
 render(siteMainElement, createSortTemplate());
 render(siteMainElement, createFilmListTemplate());
 
 const mainFilmsListContainer = siteMainElement.querySelector(`.films-list__container`);
 
-const film = generateFilm();
+const films = generateFilms(FILMS_COUNT);
+let ShowingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
 
-for (let i = 0; i < FILMS_COUNT; i++) {
-  render(mainFilmsListContainer, createFilmCardTemplate(film));
-}
+films.slice(0, ShowingFilmsCount).forEach((film) => render(mainFilmsListContainer, createFilmCardTemplate(film)));
 
 const filmsBoardElement = siteMainElement.querySelector(`.films`);
 const filmsListElement = filmsBoardElement.querySelector(`.films-list`);
 
 render(filmsListElement, createShowMoreButtonTemplate());
+const loadMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
+
+loadMoreButton.addEventListener(`click`, () => {
+  const prevFilmsCount = ShowingFilmsCount;
+  ShowingFilmsCount = ShowingFilmsCount + SHOWING_FILMS_COUNT_BY_BUTTON;
+
+  films.slice(prevFilmsCount, ShowingFilmsCount)
+    .forEach((film) => render(mainFilmsListContainer, createFilmCardTemplate(film)));
+
+  if (ShowingFilmsCount >= films.length) {
+    loadMoreButton.remove();
+  }
+});
+
 render(filmsBoardElement, createFilmListExtraTemplate(`Top rated`));
 render(filmsBoardElement, createFilmListExtraTemplate(`Most commented`));
 
@@ -51,23 +77,26 @@ const topRatedFilmsListContainer = topRated.querySelector(`.films-list__containe
 const mostCommentedFilmsListContainer = mostCommented.querySelector(`.films-list__container`);
 
 for (let i = 0; i < EXTRA_FILMS_NUM; i++) {
-  render(topRatedFilmsListContainer, createFilmCardTemplate(film));
-  render(mostCommentedFilmsListContainer, createFilmCardTemplate(film));
+  render(topRatedFilmsListContainer, createFilmCardTemplate(getRandomArrayItem(films)));
+  render(mostCommentedFilmsListContainer, createFilmCardTemplate(getRandomArrayItem(films)));
 }
 
 const footerStatisticsElement = siteBodyElement.querySelector(`.footer__statistics`);
 
-render(footerStatisticsElement, createFooterStatisticsTemplate());
-render(siteBodyElement, createFilmDetailsTemplate(film));
+const filmsInside = getRandomIntegerNumber(moviesInsideRange.FROM, moviesInsideRange.TO);
+render(footerStatisticsElement, createFooterStatisticsTemplate(filmsInside));
 
+const randomFilmForPopup = getRandomArrayItem(films);
+render(siteBodyElement, createFilmDetailsTemplate(randomFilmForPopup));
 
-const comments = generateComments(COMMENTS_COUNT);
+const commentsCount = getRandomIntegerNumber(1, 8);
+const comments = generateComments(commentsCount);
 
 const commentContainer = siteBodyElement.querySelector(`.film-details__comments-wrap`);
 render(commentContainer, createCommentsTemplate(comments));
 
 const commentsListElement = commentContainer.querySelector(`.film-details__comments-list`);
 
-for (let i = 0; i < COMMENTS_COUNT; i++) {
+for (let i = 0; i < commentsCount; i++) {
   render(commentsListElement, createCommentTemplate(comments[i]));
 }
