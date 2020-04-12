@@ -7,6 +7,12 @@ const Emojis = [
   `smile`
 ];
 
+const FilterNames = [
+  `Watchlist`,
+  `History`,
+  `Favorites`
+];
+
 const MonthNames = [
   `January`,
   `February`,
@@ -23,4 +29,4 @@ const MonthNames = [
 ];
 
 
-export {DAY_IN_MILLISECONDS, Emojis, MonthNames};
+export {DAY_IN_MILLISECONDS, Emojis, FilterNames, MonthNames};
