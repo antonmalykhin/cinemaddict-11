@@ -1,3 +1,7 @@
-export const createFooterStatisticsTemplate = () => {
-  return `<p>130 291 movies inside</p>`;
+const createFooterStatisticsTemplate = (movies) => {
+
+  let formattedMovies = new Intl.NumberFormat(`ru-RU`).format(movies);
+  return `<p>${formattedMovies} movies inside</p>`;
 };
+
+export {createFooterStatisticsTemplate};
