@@ -17,7 +17,7 @@ class FilmList {
   }
 
   getTemplate() {
-    return createFilmListTemplate(this._title);
+    return createFilmListTemplate();
   }
 
   getElement() {
