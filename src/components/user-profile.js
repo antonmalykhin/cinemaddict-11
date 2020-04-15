@@ -1,3 +1,5 @@
+import {createElement} from '../utils.js';
+
 const createUserProfileTemplate = (user) => {
   const {userName, avatar} = user;
 
@@ -9,4 +11,26 @@ const createUserProfileTemplate = (user) => {
   );
 };
 
-export {createUserProfileTemplate};
+class UserProfile {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createUserProfileTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
+export default UserProfile;
