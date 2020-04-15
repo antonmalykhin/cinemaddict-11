@@ -1,3 +1,5 @@
+import {createElement} from '../utils.js';
+
 const createFilterItem = (filter) => {
   const {name, count} = filter;
   return (
@@ -20,4 +22,26 @@ const createFiltersTemplate = (filters) => {
   );
 };
 
-export {createFiltersTemplate};
+class Filters {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFiltersTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
+export default Filters;
