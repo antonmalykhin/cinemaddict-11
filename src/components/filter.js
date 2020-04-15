@@ -23,12 +23,13 @@ const createFiltersTemplate = (filters) => {
 };
 
 class Filters {
-  constructor() {
+  constructor(filters) {
+    this._filters = filters;
     this._element = null;
   }
 
   getTemplate() {
-    return createFiltersTemplate();
+    return createFiltersTemplate(this._filters);
   }
 
   getElement() {
