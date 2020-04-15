@@ -1,4 +1,4 @@
-import {getRandomArrayItem} from '../utils.js';
+import {getRandomIntegerNumber} from '../utils.js';
 
 const filmsInsideRange = {
   FROM: 1000,
@@ -6,7 +6,7 @@ const filmsInsideRange = {
 };
 
 const generateFilmsInside = () => {
-  return getRandomArrayItem(filmsInsideRange);
+  return getRandomIntegerNumber(filmsInsideRange.FROM, filmsInsideRange.TO);
 };
 
 export {generateFilmsInside};
