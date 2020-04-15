@@ -12,12 +12,13 @@ const createUserProfileTemplate = (user) => {
 };
 
 class UserProfile {
-  constructor() {
+  constructor(user) {
+    this._user = user;
     this._element = null;
   }
 
   getTemplate() {
-    return createUserProfileTemplate();
+    return createUserProfileTemplate(this._user);
   }
 
   getElement() {
