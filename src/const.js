@@ -7,6 +7,12 @@ const Emojis = [
   `angry`
 ];
 
+const ExtraListNames = {
+  RATED: `Top rated`,
+  COMMENTED: `Most commented`
+};
+
+
 const FilterNames = [
   `Watchlist`,
   `History`,
@@ -29,4 +35,4 @@ const MonthNames = [
 ];
 
 
-export {DAY_IN_MILLISECONDS, Emojis, FilterNames, MonthNames};
+export {DAY_IN_MILLISECONDS, Emojis, ExtraListNames, FilterNames, MonthNames};
