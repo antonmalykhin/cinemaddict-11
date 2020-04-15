@@ -15,6 +15,8 @@ import {generateComments} from './mock/comments.js';
 import {generateUser} from './mock/user.js';
 import {generateFilters} from './mock/filter.js';
 
+
+import {ExtraListNames} from './const.js';
 import {getRandomArrayItem, getRandomIntegerNumber} from './utils.js';
 
 const FILMS_COUNT = 25;
@@ -67,8 +69,8 @@ loadMoreButton.addEventListener(`click`, () => {
   }
 });
 
-render(filmsBoardElement, createFilmListExtraTemplate(`Top rated`));
-render(filmsBoardElement, createFilmListExtraTemplate(`Most commented`));
+render(filmsBoardElement, createFilmListExtraTemplate(ExtraListNames.RATED));
+render(filmsBoardElement, createFilmListExtraTemplate(ExtraListNames.COMMENTED));
 
 const extraFilmLists = filmsBoardElement.querySelectorAll(`.films-list--extra`);
 
