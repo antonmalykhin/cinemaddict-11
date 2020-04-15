@@ -1,18 +1,19 @@
 import {createElement} from '../utils.js';
 
-const createFooterStatisticsTemplate = (movies) => {
+const createFooterStatisticsTemplate = (films) => {
 
-  let formattedMovies = new Intl.NumberFormat(`ru-RU`).format(movies);
-  return `<p>${formattedMovies} movies inside</p>`;
+  let formattedFilms = new Intl.NumberFormat(`ru-RU`).format(films);
+  return `<p>${formattedFilms} movies inside</p>`;
 };
 
 class FooterStatistics {
-  constructor() {
+  constructor(films) {
+    this._films = films;
     this._element = null;
   }
 
   getTemplate() {
-    return createFooterStatisticsTemplate();
+    return createFooterStatisticsTemplate(this._films);
   }
 
   getElement() {
