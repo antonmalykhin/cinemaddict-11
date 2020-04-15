@@ -15,7 +15,8 @@ const createCommentsTemplate = (comments) => {
   const emojisTemplate = Emojis.map((it) => createEmojiTemplate(it)).join(`\n`);
 
   return (
-    `<h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
+    `<section class="film-details__comments-wrap">
+    <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
 
     <ul class="film-details__comments-list"></ul>
 
@@ -29,7 +30,8 @@ const createCommentsTemplate = (comments) => {
       <div class="film-details__emoji-list">
         ${emojisTemplate}
       </div>
-    </div>`
+    </div>
+    </section>`
   );
 };
 
