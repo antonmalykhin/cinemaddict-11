@@ -38,4 +38,10 @@ const sortMinToMax = (a, b) => {
   return 0;
 };
 
-export {formatDate, formatTime, getRandomArrayItem, getRandomDateTime, getRandomIntegerNumber, sortMinToMax};
+const createElement = (template) => {
+  const element = document.createElement(`div`);
+  element.innerHTML = template;
+  return element.firstChild();
+};
+
+export {createElement, formatDate, formatTime, getRandomArrayItem, getRandomDateTime, getRandomIntegerNumber, sortMinToMax};
