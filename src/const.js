@@ -1,10 +1,10 @@
 const DAY_IN_MILLISECONDS = 86400000;
 
 const Emojis = [
-  `angry`,
-  `puke`,
+  `smile`,
   `sleeping`,
-  `smile`
+  `puke`,
+  `angry`
 ];
 
 const FilterNames = [
