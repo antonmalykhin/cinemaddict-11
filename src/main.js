@@ -99,10 +99,11 @@ const renderFilmsList = (mainFilmsListContainer, films) => {
 
   renderExtraFilms(filmsBoardElement, films);
 
-  render(filmsListElement, new ShowMoreButtonComponent().getElement());
-  const loadMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
+  const showMoreButtonComponent = new ShowMoreButtonComponent();
+  const showMoreButton = showMoreButtonComponent.getElement();
+  render(filmsListElement, showMoreButton);
 
-  loadMoreButton.addEventListener(`click`, () => {
+  const onShowMoreButtonClick = () => {
     const prevFilmsCount = ShowingFilmsCount;
     ShowingFilmsCount = ShowingFilmsCount + SHOWING_FILMS_COUNT_BY_BUTTON;
 
@@ -110,9 +111,13 @@ const renderFilmsList = (mainFilmsListContainer, films) => {
       .forEach((film) => renderFilm(mainFilmsListContainer, siteBodyElement, film));
 
     if (ShowingFilmsCount >= films.length) {
-      loadMoreButton.remove();
+      showMoreButton.remove();
+      showMoreButton.removeEventListener(`click`, onShowMoreButtonClick);
+      showMoreButtonComponent.removeElement();
     }
-  });
+  };
+
+  showMoreButton.addEventListener(`click`, onShowMoreButtonClick);
 };
 
 render(siteHeaderElement, new UserProfileComponent(user).getElement());
