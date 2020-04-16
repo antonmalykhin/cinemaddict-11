@@ -1,11 +1,17 @@
 const DAY_IN_MILLISECONDS = 86400000;
 
 const Emojis = [
-  `angry`,
-  `puke`,
+  `smile`,
   `sleeping`,
-  `smile`
+  `puke`,
+  `angry`
 ];
+
+const ExtraListNames = {
+  RATED: `Top rated`,
+  COMMENTED: `Most commented`
+};
+
 
 const FilterNames = [
   `Watchlist`,
@@ -29,4 +35,4 @@ const MonthNames = [
 ];
 
 
-export {DAY_IN_MILLISECONDS, Emojis, FilterNames, MonthNames};
+export {DAY_IN_MILLISECONDS, Emojis, ExtraListNames, FilterNames, MonthNames};

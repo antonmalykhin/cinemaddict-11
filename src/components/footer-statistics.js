@@ -1,7 +1,32 @@
-const createFooterStatisticsTemplate = (movies) => {
+import {createElement} from '../utils.js';
 
-  let formattedMovies = new Intl.NumberFormat(`ru-RU`).format(movies);
-  return `<p>${formattedMovies} movies inside</p>`;
+const createFooterStatisticsTemplate = (films) => {
+
+  let formattedFilms = new Intl.NumberFormat(`ru-RU`).format(films);
+  return `<p>${formattedFilms} movies inside</p>`;
 };
 
-export {createFooterStatisticsTemplate};
+class FooterStatistics {
+  constructor(films) {
+    this._films = films;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFooterStatisticsTemplate(this._films);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
+export default FooterStatistics;

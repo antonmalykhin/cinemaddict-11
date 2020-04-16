@@ -1,3 +1,5 @@
+import {createElement} from '../utils.js';
+
 const createGenresTemplate = (genres) => {
   return genres.map((it) => `<span class="film-details__genre">${it}</span>`).join(`\n`);
 };
@@ -92,4 +94,27 @@ const createFilmDetailsTemplate = (film) => {
   );
 };
 
-export {createFilmDetailsTemplate};
+class FilmDetails {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmDetailsTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
+export default FilmDetails;
