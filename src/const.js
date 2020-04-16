@@ -1,4 +1,7 @@
 const DAY_IN_MILLISECONDS = 86400000;
+const MAIN_FILM_LIST_TITLE = `All movies. Upcoming`;
+const NO_FILM_LIST_TITLE = `There are no movies in our database
+`;
 
 const Emojis = [
   `smile`,
@@ -7,9 +10,9 @@ const Emojis = [
   `angry`
 ];
 
-const ExtraListNames = {
-  RATED: `Top rated`,
-  COMMENTED: `Most commented`
+const ExtraFilmListTitles = {
+  TOP_RATED: `Top rated`,
+  MOST_COMMENTED: `Most commented`
 };
 
 
@@ -35,4 +38,4 @@ const MonthNames = [
 ];
 
 
-export {DAY_IN_MILLISECONDS, Emojis, ExtraListNames, FilterNames, MonthNames};
+export {DAY_IN_MILLISECONDS, MAIN_FILM_LIST_TITLE, NO_FILM_LIST_TITLE, Emojis, ExtraFilmListTitles, FilterNames, MonthNames};
