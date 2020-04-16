@@ -53,15 +53,23 @@ const renderFilm = (filmsContainer, popupContainer, film) => {
   const comments = filmCardComponent.getElement().querySelector(`.film-card__comments`);
   const popupCloseBtn = filmDetailsComponent.getElement().querySelector(`.film-details__close-btn`);
 
+  const onEscKeyPress = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Ecs`) {
+      closePopup();
+    }
+  };
+
   const openPopup = () => {
     render(popupContainer, filmDetailsComponent.getElement());
     renderComments(film);
     popupCloseBtn.addEventListener(`click`, closePopup);
+    document.addEventListener(`keydown`, onEscKeyPress);
   };
 
   const closePopup = () => {
-    popupCloseBtn.removeEventListener(`click`, closePopup);
     filmDetailsComponent.getElement().remove();
+    popupCloseBtn.removeEventListener(`click`, closePopup);
+    document.removeEventListener(`keydown`, onEscKeyPress);
   };
 
   poster.addEventListener(`click`, openPopup);
