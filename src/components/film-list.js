@@ -1,23 +1,21 @@
 import {createElement} from '../utils.js';
 
-const createFilmListTemplate = () => {
+const createFilmListTemplate = (isExtra = false) => {
   return (
-    `<section class="films">
-      <section class="films-list">
-        <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
+    `<section class="films-list${isExtra ? `--extra` : ``}">
         <div class="films-list__container"></div>
-      </section>
-    </section>`
+      </section>`
   );
 };
 
 class FilmList {
-  constructor() {
+  constructor(isExtra) {
+    this._isExtra = isExtra;
     this._element = null;
   }
 
   getTemplate() {
-    return createFilmListTemplate();
+    return createFilmListTemplate(this._isExtra);
   }
 
   getElement() {
