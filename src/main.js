@@ -60,7 +60,15 @@ const renderFilm = (filmsContainer, popupContainer, film) => {
     }
   };
 
+  const clearPopup = () => {
+    const filmDetails = siteBodyElement.querySelector(`.film-details`);
+    if (filmDetails) {
+      filmDetails.remove();
+    }
+  };
+
   const openPopup = () => {
+    clearPopup();
     render(popupContainer, filmDetailsComponent.getElement());
     renderComments(film);
     popupCloseBtn.addEventListener(`click`, closePopup);
