@@ -10,7 +10,7 @@ const createFilmCardTemplate = (film) => {
 
   const filmDescription = description.length > DescriptionSettings.MAX_LENGTH ? description.slice(0, DescriptionSettings.SPLIT_LENGTH).concat(`...`) : description;
 
-  const filmCommentsCount = comments === 1 ? `${comments} comment` : `${comments} comments`;
+  const filmCommentsCount = comments.length === 1 ? `${comments.length} comment` : `${comments.length} comments`;
 
   return (
     `<article class="film-card">
