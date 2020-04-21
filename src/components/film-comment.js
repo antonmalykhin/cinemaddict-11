@@ -1,4 +1,4 @@
-import {formatDate, formatTime} from '../utils.js';
+import {formatDate, formatTime} from '../utils/common.js';
 import {DAY_IN_MILLISECONDS} from '../const.js';
 import AbstractComponent from './abstract-component';
 
