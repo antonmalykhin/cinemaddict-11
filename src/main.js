@@ -49,10 +49,8 @@ const renderFilm = (filmsContainer, popupContainer, film) => {
   const filmDetailsComponent = new FilmDetailsComponent(film);
 
   render(filmsContainer, filmCardComponent);
-  const poster = filmCardComponent.getElement().querySelector(`.film-card__poster`);
-  const title = filmCardComponent.getElement().querySelector(`.film-card__title`);
-  const comments = filmCardComponent.getElement().querySelector(`.film-card__comments`);
-  const popupCloseBtn = filmDetailsComponent.getElement().querySelector(`.film-details__close-btn`);
+
+  // const popupCloseBtn = filmDetailsComponent.getElement().querySelector(`.film-details__close-btn`);
 
   const onEscKeyPress = (evt) => {
     if (evt.key === `Escape` || evt.key === `Ecs`) {
@@ -71,19 +69,16 @@ const renderFilm = (filmsContainer, popupContainer, film) => {
     clearPopup();
     render(popupContainer, filmDetailsComponent);
     renderComments(film);
-    popupCloseBtn.addEventListener(`click`, closePopup);
+    filmDetailsComponent.setClickHandler(closePopup);
     document.addEventListener(`keydown`, onEscKeyPress);
   };
 
   const closePopup = () => {
     filmDetailsComponent.getElement().remove();
-    popupCloseBtn.removeEventListener(`click`, closePopup);
     document.removeEventListener(`keydown`, onEscKeyPress);
   };
 
-  poster.addEventListener(`click`, openPopup);
-  title.addEventListener(`click`, openPopup);
-  comments.addEventListener(`click`, openPopup);
+  filmCardComponent.setClickHandler(openPopup);
 };
 
 const renderExtraFilmList = (title, filmsBoardElement, films) => {
@@ -126,9 +121,8 @@ const renderFilms = (filmBoardElement, films) => {
   const filmsByComments = films.slice().sort((a, b) => b.comments - a.comments);
   renderExtraFilmList(ExtraFilmListTitles.TOP_RATED, filmBoardElement.getElement(), filmsByRating);
   renderExtraFilmList(ExtraFilmListTitles.MOST_COMMENTED, filmBoardElement.getElement(), filmsByComments);
-
   const showMoreButtonComponent = new ShowMoreButtonComponent();
-  const showMoreButton = showMoreButtonComponent.getElement();
+
   render(filmListElement.getElement(), showMoreButtonComponent);
 
   const onShowMoreButtonClick = () => {
@@ -139,12 +133,11 @@ const renderFilms = (filmBoardElement, films) => {
       .forEach((film) => renderFilm(mainFilmsListContainer, siteBodyElement, film));
 
     if (showingFilmsCount >= films.length) {
-      showMoreButton.removeEventListener(`click`, onShowMoreButtonClick);
       remove(showMoreButtonComponent);
     }
   };
 
-  showMoreButton.addEventListener(`click`, onShowMoreButtonClick);
+  showMoreButtonComponent.setClickHandler(onShowMoreButtonClick);
 };
 
 render(siteHeaderElement, new UserProfileComponent(user));
