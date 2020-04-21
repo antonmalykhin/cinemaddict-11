@@ -86,9 +86,7 @@ const createFilmDetailsTemplate = (film) => {
         </section>
       </div>
 
-      <div class="form-details__bottom-container">
-        <section class="film-details__comments-wrap"></section>
-      </div>
+      <div class="form-details__bottom-container"></div>
     </form>
   </section>`
   );
