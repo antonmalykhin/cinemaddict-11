@@ -1,28 +1,12 @@
-import {createElement} from '../utils.js';
+import AbstractComponent from './abstract-component.js';
 
 const createFilmBoardTemplate = () => {
   return `<section class="films"></section>`;
 };
 
-class FilmBoard {
-  constructor() {
-    this._element = null;
-  }
-
+class FilmBoard extends AbstractComponent {
   getTemplate() {
     return createFilmBoardTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 

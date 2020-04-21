@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import AbstractComponent from './abstract-component';
 
 const createGenresTemplate = (genres) => {
   return genres.map((it) => `<span class="film-details__genre">${it}</span>`).join(`\n`);
@@ -94,26 +94,15 @@ const createFilmDetailsTemplate = (film) => {
   );
 };
 
-class FilmDetails {
+class FilmDetails extends AbstractComponent {
   constructor(film) {
+    super();
+
     this._film = film;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmDetailsTemplate(this._film);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 
