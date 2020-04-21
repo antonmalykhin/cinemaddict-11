@@ -104,6 +104,11 @@ class FilmDetails extends AbstractComponent {
   getTemplate() {
     return createFilmDetailsTemplate(this._film);
   }
+
+  setClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__close-btn`)
+      .addEventListener(`click`, handler);
+  }
 }
 
 export default FilmDetails;
