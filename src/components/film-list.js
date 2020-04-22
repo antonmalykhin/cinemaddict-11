@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import AbstractComponent from './abstract-component';
 
 const createFilmListTemplate = (isExtra = false) => {
   return (
@@ -8,26 +8,15 @@ const createFilmListTemplate = (isExtra = false) => {
   );
 };
 
-class FilmList {
+class FilmList extends AbstractComponent {
   constructor(isExtra) {
+    super();
+
     this._isExtra = isExtra;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmListTemplate(this._isExtra);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 

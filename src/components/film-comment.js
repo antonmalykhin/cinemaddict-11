@@ -1,5 +1,6 @@
-import {createElement, formatDate, formatTime} from '../utils.js';
+import {formatDate, formatTime} from '../utils/common.js';
 import {DAY_IN_MILLISECONDS} from '../const.js';
+import AbstractComponent from './abstract-component';
 
 
 const createCommentTemplate = (comment) => {
@@ -32,26 +33,15 @@ const createCommentTemplate = (comment) => {
   );
 };
 
-class FilmComment {
+class FilmComment extends AbstractComponent {
   constructor(comment) {
+    super();
+
     this._comment = comment;
-    this._element = null;
   }
 
   getTemplate() {
     return createCommentTemplate(this._comment);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 

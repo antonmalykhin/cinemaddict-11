@@ -1,4 +1,4 @@
-import {getRandomArrayItem} from '../utils';
+import {getRandomArrayItem} from '../utils/common.js';
 
 const Users = [
   `Movie Buff`,

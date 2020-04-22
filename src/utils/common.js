@@ -1,8 +1,3 @@
-const RenderPosition = {
-  AFTERBEGIN: `afterbefin`,
-  BEFOREEND: `beforeend`
-};
-
 const getRandomArrayItem = (array) => {
   return array[Math.floor(Math.random() * array.length)];
 };
@@ -43,21 +38,5 @@ const sortMinToMax = (a, b) => {
   return 0;
 };
 
-const createElement = (template) => {
-  const element = document.createElement(`div`);
-  element.innerHTML = template;
-  return element.firstChild;
-};
 
-
-const render = (container, element, position = RenderPosition.BEFOREEND) => {
-  switch (position) {
-    case `afterbefin`:
-      container.prepend(element);
-      break;
-    case `beforeend`:
-      container.append(element);
-  }
-};
-
-export {createElement, formatDate, formatTime, getRandomArrayItem, getRandomDateTime, getRandomIntegerNumber, render, RenderPosition, sortMinToMax};
+export {formatDate, formatTime, getRandomArrayItem, getRandomDateTime, getRandomIntegerNumber, sortMinToMax};

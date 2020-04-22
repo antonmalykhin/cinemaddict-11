@@ -1,5 +1,5 @@
 import {Emojis} from '../const.js';
-import {createElement} from '../utils.js';
+import AbstractComponent from './abstract-component';
 
 const createEmojiTemplate = (emoji) => {
   return (
@@ -35,26 +35,15 @@ const createCommentsTemplate = (comments) => {
   );
 };
 
-class FilmComments {
+class FilmComments extends AbstractComponent {
   constructor(comments) {
+    super();
+
     this._comments = comments;
-    this._element = null;
   }
 
   getTemplate() {
     return createCommentsTemplate(this._comments);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 

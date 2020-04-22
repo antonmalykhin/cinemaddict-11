@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import AbstractComponent from './abstract-component.js';
 
 const DescriptionSettings = {
   MAX_LENGTH: 140,
@@ -10,7 +10,7 @@ const createFilmCardTemplate = (film) => {
 
   const filmDescription = description.length > DescriptionSettings.MAX_LENGTH ? description.slice(0, DescriptionSettings.SPLIT_LENGTH).concat(`...`) : description;
 
-  const filmCommentsCount = comments === 1 ? `${comments} comment` : `${comments} comments`;
+  const filmCommentsCount = comments.length === 1 ? `${comments.length} comment` : `${comments.length} comments`;
 
   return (
     `<article class="film-card">
@@ -33,26 +33,24 @@ const createFilmCardTemplate = (film) => {
   );
 };
 
-class FilmCard {
+class FilmCard extends AbstractComponent {
   constructor(film) {
+    super();
+
     this._film = film;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmCardTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__poster`)
+      .addEventListener(`click`, handler);
+    this.getElement().querySelector(`.film-card__title`)
+      .addEventListener(`click`, handler);
+    this.getElement().querySelector(`.film-card__comments`)
+      .addEventListener(`click`, handler);
   }
 }
 

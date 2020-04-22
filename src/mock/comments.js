@@ -1,5 +1,5 @@
 import {Emojis} from '../const.js';
-import {getRandomArrayItem, getRandomDateTime, sortMinToMax} from '../utils.js';
+import {getRandomArrayItem, getRandomDateTime, sortMinToMax} from '../utils/common.js';
 
 const Comments = [
   `Interesting setting and a good cast`,
