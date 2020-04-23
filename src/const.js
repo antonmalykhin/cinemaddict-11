@@ -1,7 +1,6 @@
 const DAY_IN_MILLISECONDS = 86400000;
 const MAIN_FILM_LIST_TITLE = `All movies. Upcoming`;
-const NO_FILM_LIST_TITLE = `There are no movies in our database
-`;
+const NO_FILM_LIST_TITLE = `There are no movies in our database`;
 
 const Emojis = [
   `smile`,
@@ -37,5 +36,11 @@ const MonthNames = [
   `December`,
 ];
 
+const SortingType = {
+  DEFAULT: `default`,
+  BY_DATE: `by-date`,
+  BY_RATING: `by-rating`
+};
 
-export {DAY_IN_MILLISECONDS, MAIN_FILM_LIST_TITLE, NO_FILM_LIST_TITLE, Emojis, ExtraFilmListTitles, FilterNames, MonthNames};
+
+export {DAY_IN_MILLISECONDS, MAIN_FILM_LIST_TITLE, NO_FILM_LIST_TITLE, Emojis, ExtraFilmListTitles, FilterNames, MonthNames, SortingType};
