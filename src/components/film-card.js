@@ -1,4 +1,5 @@
 import AbstractComponent from './abstract-component.js';
+import {MonthNames} from '../const.js';
 
 const DescriptionSettings = {
   MAX_LENGTH: 140,
@@ -6,18 +7,20 @@ const DescriptionSettings = {
 };
 
 const createFilmCardTemplate = (film) => {
-  const {poster: poster, title: title, rating: rating, release: year, runtime: duration, genres: genres, description: description, comments: comments} = film;
+  const {poster: poster, title: title, rating: rating, release: date, runtime: duration, genres: genres, description: description, comments: comments} = film;
 
   const filmDescription = description.length > DescriptionSettings.MAX_LENGTH ? description.slice(0, DescriptionSettings.SPLIT_LENGTH).concat(`...`) : description;
 
   const filmCommentsCount = comments.length === 1 ? `${comments.length} comment` : `${comments.length} comments`;
+
+  const formattedDate = `${date.getDate()} ${MonthNames[date.getMonth()]} ${date.getFullYear()}`;
 
   return (
     `<article class="film-card">
       <h3 class="film-card__title">${title}</h3>
       <p class="film-card__rating">${rating}</p>
       <p class="film-card__info">
-        <span class="film-card__year">${year}</span>
+        <span class="film-card__year">${formattedDate}</span>
         <span class="film-card__duration">${duration}</span>
         <span class="film-card__genre">${genres[0]}</span>
       </p>

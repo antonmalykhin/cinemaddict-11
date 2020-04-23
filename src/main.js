@@ -1,6 +1,5 @@
 import UserProfileComponent from './components/user-profile.js';
 import FiltersComponent from './components/filter.js';
-import SortingComponent from './components/sorting.js';
 import FilmBoardComponent from './components/film-board.js';
 import FooterStatisticsComponent from './components/footer-statistics.js';
 
@@ -24,7 +23,6 @@ const filters = generateFilters();
 
 render(siteHeaderElement, new UserProfileComponent(user));
 render(siteMainElement, new FiltersComponent(filters));
-render(siteMainElement, new SortingComponent());
 
 const filmBoardElement = new FilmBoardComponent();
 const films = generateFilms(FILMS_COUNT);
