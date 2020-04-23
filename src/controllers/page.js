@@ -86,7 +86,7 @@ const getSortedFilms = (films, sortingType, from, to) => {
 
 const renderFilms = (films, filmListElement, popupContainer) => {
   films.forEach((film) => {
-    renderFilm(filmListElement, popupContainer, film)
+    renderFilm(filmListElement, popupContainer, film);
   });
 };
 
