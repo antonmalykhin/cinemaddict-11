@@ -161,8 +161,6 @@ class PageController {
 
     let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
 
-    // films.slice(0, showingFilmsCount).forEach((film) => renderFilm(mainFilmsListContainer, this._body, film));
-
     renderFilms(films.slice(0, showingFilmsCount), mainFilmsListContainer, this._body);
 
     const filmsByRating = films.slice().sort((a, b) => b.rating - a.rating);
@@ -180,7 +178,6 @@ class PageController {
 
       mainFilmsListContainer.innerHTML = ``;
 
-      // sortedFilms.forEach((film) => renderFilm(mainFilmsListContainer, this._body, film));
       renderFilms(sortedFilms, mainFilmsListContainer, this._body);
 
       renderShowMoreButton();
