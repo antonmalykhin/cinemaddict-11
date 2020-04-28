@@ -3,7 +3,7 @@ import AbstractComponent from './abstract-component';
 const createFilterItem = (filter) => {
   const {name, count} = filter;
   return (
-    `<a href="#${name.toLocaleLowerCase()}"  class="main-navigation__item">${name}<span  class="main-navigation__item-count">${count}</span></a>`
+    `<a href="#${name.toLocaleLowerCase()}"  class="main-navigation__item">${name} <span class="main-navigation__item-count">${count}</span></a>`
   );
 };
 
