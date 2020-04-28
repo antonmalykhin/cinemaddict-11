@@ -1,6 +1,5 @@
 import AbstractComponent from './abstract-component.js';
-import {MonthNames} from '../const.js';
-import {formatDate, formatTime, getYear} from '../utils/common.js';
+import {formatTime, getYear} from '../utils/common.js';
 
 const DescriptionSettings = {
   MAX_LENGTH: 140,
