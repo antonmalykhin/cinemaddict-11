@@ -21,13 +21,13 @@ const Countries = [
 ];
 
 const FilmImages = {
-  'Made For Each Other': `/images/posters/made-for-each-other.png`,
-  'Popeye Meets Sinbad': `/images/posters/popeye-meets-sinbad.png`,
-  'Sagebrush Trail': `/images/posters/sagebrush-trail.jpg`,
-  'Santa Claus Conquers The Martians': `/images/posters/santa-claus-conquers-the-martians.jpg`,
-  'The Dance of Life': `/images/posters/the-dance-of-life.jpg`,
-  'The Great Flamarion': `/images/posters/the-great-flamarion.jpg`,
-  'The Man With The Golden Arm': `/images/posters/the-man-with-the-golden-arm.jpg`
+  'Made For Each Other': `./images/posters/made-for-each-other.png`,
+  'Popeye Meets Sinbad': `./images/posters/popeye-meets-sinbad.png`,
+  'Sagebrush Trail': `./images/posters/sagebrush-trail.jpg`,
+  'Santa Claus Conquers The Martians': `./images/posters/santa-claus-conquers-the-martians.jpg`,
+  'The Dance of Life': `./images/posters/the-dance-of-life.jpg`,
+  'The Great Flamarion': `./images/posters/the-great-flamarion.jpg`,
+  'The Man With The Golden Arm': `./images/posters/the-man-with-the-golden-arm.jpg`
 };
 
 const ProductionTeams = [{
