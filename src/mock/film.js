@@ -114,7 +114,10 @@ const generateFilm = () => {
     genres: getGenres(Genres),
     country: getRandomArrayItem(Countries),
     description: getRandomDescription(filmDescriptionLength),
-    comments: generateComments(getRandomIntegerNumber(Comments.MIN, Comments.MAX))
+    comments: generateComments(getRandomIntegerNumber(Comments.MIN, Comments.MAX)),
+    inWatchlist: Math.random() > 0.5,
+    isWatched: Math.random() > 0.5,
+    isFavorite: Math.random() > 0.5
   };
 };
 
