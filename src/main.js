@@ -1,5 +1,6 @@
 import UserProfileComponent from './components/user-profile.js';
 import FiltersComponent from './components/filter.js';
+import SortingComponent from './components/sorting';
 import FilmBoardComponent from './components/film-board.js';
 import FooterStatisticsComponent from './components/footer-statistics.js';
 
@@ -12,7 +13,7 @@ import {generateFilmsInside} from './mock/filmsInside.js';
 
 import {render} from './utils/render.js';
 
-const FILMS_COUNT = 25;
+const FILMS_COUNT = 50;
 
 const siteBodyElement = document.querySelector(`body`);
 const siteHeaderElement = siteBodyElement.querySelector(`.header`);
@@ -24,12 +25,14 @@ const filters = generateFilters();
 render(siteHeaderElement, new UserProfileComponent(user));
 render(siteMainElement, new FiltersComponent(filters));
 
-const filmBoardElement = new FilmBoardComponent();
+const sortingComponent = new SortingComponent();
+const filmBoardComponent = new FilmBoardComponent();
 const films = generateFilms(FILMS_COUNT);
 
-render(siteMainElement, filmBoardElement);
+render(siteMainElement, sortingComponent);
+render(siteMainElement, filmBoardComponent);
 
-const pageController = new PageController(filmBoardElement);
+const pageController = new PageController(filmBoardComponent, sortingComponent);
 
 pageController.render(films);
 
