@@ -1,5 +1,6 @@
 import AbstractComponent from './abstract-component.js';
 import {MonthNames} from '../const.js';
+import {formatDate, formatTime, getYear} from '../utils/common.js';
 
 const DescriptionSettings = {
   MAX_LENGTH: 140,
@@ -17,7 +18,8 @@ const createFilmCardTemplate = (film) => {
 
   const filmCommentsCount = comments.length === 1 ? `${comments.length} comment` : `${comments.length} comments`;
 
-  const formattedDate = `${date.getDate()} ${MonthNames[date.getMonth()]} ${date.getFullYear()}`;
+  const formattedDate = getYear(date);
+  const formattedDuration = formatTime(duration);
 
   const addToWatchButton = createButtonTemplate(`Add to watchlist`, `add-to-watchlist`, !film.inWatchlist);
   const markAsWachedButton = createButtonTemplate(`Mark as watched`, `mark-as-watched`, !film.isWatched);
@@ -29,7 +31,7 @@ const createFilmCardTemplate = (film) => {
       <p class="film-card__rating">${rating}</p>
       <p class="film-card__info">
         <span class="film-card__year">${formattedDate}</span>
-        <span class="film-card__duration">${duration}</span>
+        <span class="film-card__duration">${formattedDuration}</span>
         <span class="film-card__genre">${genres[0]}</span>
       </p>
       <img src=${poster} alt="" class="film-card__poster">
