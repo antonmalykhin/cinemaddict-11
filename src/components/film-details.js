@@ -1,18 +1,13 @@
 import AbstractSmartComponent from './abstract-smart-component';
-import {DAY_IN_MILLISECONDS, Emojis} from '../const.js';
-import {formatDate, formatTime} from '../utils/common.js';
+import {Emojis} from '../const.js';
+import {formatDate, formatTime, formatCommentDateTime} from '../utils/common.js';
+
+const TIME_FRAME = 5;
 
 const createCommentTemplate = (comment) => {
   const {emoji, commentText, commentAuthor, date} = comment;
 
-  const currentDate = new Date();
-  let commentDateTime = `${formatDate(date)} ${formatTime(date)}`;
-
-  if (currentDate - date <= DAY_IN_MILLISECONDS) {
-    commentDateTime = `Today`;
-  } else if (currentDate - date <= DAY_IN_MILLISECONDS * 2) {
-    commentDateTime = `2 days ago`;
-  }
+  const commentFormattedDateTime = formatCommentDateTime(date, TIME_FRAME);
 
   return (
     `<li class="film-details__comment">
@@ -23,7 +18,7 @@ const createCommentTemplate = (comment) => {
       <p class="film-details__comment-text">${commentText}</p>
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${commentAuthor}</span>
-        <span class="film-details__comment-day">${commentDateTime}</span>
+        <span class="film-details__comment-day">${commentFormattedDateTime}</span>
         <button class="film-details__comment-delete">Delete</button>
       </p>
     </div>
@@ -62,6 +57,9 @@ const createGenresTemplate = (genres) => {
 const createFilmDetailsTemplate = (film, options = {}) => {
 
   const {poster: poster, ageRate: ageRate, title: title, productionTeam: productionTeam, originalTitle: originalTitle, rating: rating, release: releaseDate, runtime: runtime, genres: genres, country: country, description: description, comments: comments} = film;
+
+  const formattedReleaseDate = formatDate(releaseDate);
+  const formattedDuration = formatTime(runtime);
 
   const {director: director, writers: writers, actors: actors} = productionTeam;
 
@@ -119,11 +117,11 @@ const createFilmDetailsTemplate = (film, options = {}) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
-                <td class="film-details__cell">${releaseDate}</td>
+                <td class="film-details__cell">${formattedReleaseDate}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${runtime}</td>
+                <td class="film-details__cell">${formattedDuration}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>

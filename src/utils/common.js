@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 const getRandomArrayItem = (array) => {
   return array[Math.floor(Math.random() * array.length)];
 };
@@ -14,19 +16,24 @@ const getRandomDateTime = () => {
   return targetDateTime;
 };
 
-const castTimeFormat = (value) => {
-  return value < 10 ? `0${value}` : String(value);
-};
-
 const formatDate = (date) => {
-  return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+  return moment(date).format(`DD MMMM YYYY`);
 };
 
-const formatTime = (date) => {
-  const hours = castTimeFormat(date.getHours() % 12);
-  const minutes = castTimeFormat(date.getMinutes());
+const getYear = (date) => {
+  return moment(date).format(`YYYY`);
+};
 
-  return `${hours}:${minutes}`;
+const formatTime = (time) => {
+  const duration = moment.duration(time, `minutes`);
+  const hours = duration.hours();
+  const minutes = duration.minutes();
+
+  return hours ? `${hours}h ${minutes}m` : `${minutes}m`;
+};
+
+const formatCommentDateTime = (date, timeFrame) => {
+  return moment().diff(moment(date), `days`) < timeFrame ? moment(date).fromNow() : moment(date).format(`YYYY/MM/DD hh:mm`);
 };
 
 const sortMinToMax = (a, b) => {
@@ -39,4 +46,4 @@ const sortMinToMax = (a, b) => {
 };
 
 
-export {formatDate, formatTime, getRandomArrayItem, getRandomDateTime, getRandomIntegerNumber, sortMinToMax};
+export {formatDate, formatTime, formatCommentDateTime, getYear, getRandomArrayItem, getRandomDateTime, getRandomIntegerNumber, sortMinToMax};
