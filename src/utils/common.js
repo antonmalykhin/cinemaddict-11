@@ -17,7 +17,7 @@ const getRandomDateTime = () => {
 };
 
 const formatDate = (date) => {
-  return moment(date).format(`D MMMM YYYY`);
+  return moment(date).format(`DD MMMM YYYY`);
 };
 
 const getYear = (date) => {
