@@ -99,6 +99,7 @@ const generateFilm = () => {
   const filmReleaseRaw = getRandomDate(Dates.START, Dates.END);
 
   return {
+    id: String(new Date() + Math.random()),
     poster: FilmImages[filmTitle],
     ageRate: getRandomIntegerNumber(0, 18),
     title: filmTitle,
