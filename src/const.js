@@ -15,10 +15,18 @@ const ExtraFilmListTitles = {
 
 
 const FilterNames = [
+  `All`,
   `Watchlist`,
   `History`,
   `Favorites`
 ];
+
+const FilterType = {
+  ALL: `All`,
+  WATCHLIST: `Watchlist`,
+  WATCHED: `History`,
+  FAVORITE: `Favorites`
+};
 
 const SortingType = {
   DEFAULT: `default`,
@@ -27,4 +35,4 @@ const SortingType = {
 };
 
 
-export {MAIN_FILM_LIST_TITLE, NO_FILM_LIST_TITLE, Emojis, ExtraFilmListTitles, FilterNames, SortingType};
+export {MAIN_FILM_LIST_TITLE, NO_FILM_LIST_TITLE, Emojis, ExtraFilmListTitles, FilterNames, FilterType, SortingType};
