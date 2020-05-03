@@ -1,7 +1,7 @@
 import FilmCardComponent from '../components/film-card.js';
 import FilmDetailsComponent from '../components/film-details.js';
 
-import {render, replace} from '../utils/render.js';
+import {render, remove, replace} from '../utils/render.js';
 
 
 class FilmController {
@@ -30,6 +30,12 @@ class FilmController {
 
   setDefaultView() {
     this._filmDetailsComponent.getElement().remove();
+  }
+
+  destroy() {
+    remove(this._filmComponent);
+    remove(this._filmDetailsComponent);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 
   render(film) {
