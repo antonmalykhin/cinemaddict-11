@@ -60,7 +60,7 @@ const Rating = {
 
 const Comments = {
   MIN: 0,
-  MAX: 5
+  MAX: 10
 };
 
 const Description = {
