@@ -1,6 +1,8 @@
 import {getFilmsByFilter} from '../utils/filter.js';
 import {FilterType} from '../const.js';
 
+const EXTRA_FILMS_NUM = 2;
+
 class Films {
   constructor() {
     this._films = [];
@@ -16,6 +18,16 @@ class Films {
 
   getFilmsAll() {
     return this._films;
+  }
+
+  getCommentedFilms() {
+    const films = this.getFilmsAll();
+    return films.slice().sort((a, b) => b.comments.length - a.comments.length).slice(0, EXTRA_FILMS_NUM);
+  }
+
+  getRatedFilms() {
+    const films = this.getFilmsAll();
+    return films.slice().sort((a, b) => b.rating - a.rating).slice(0, EXTRA_FILMS_NUM);
   }
 
   setFilms(films) {
@@ -40,6 +52,24 @@ class Films {
     this._callHandlers(this._dataChangeHandlers);
 
     return true;
+  }
+
+  removeComment(commentId, film) {
+    const index = film.comments.findIndex((comment) => comment.id === commentId);
+
+    if (index === -1) {
+      return false;
+    }
+
+    film.comments = [].concat(film.comments.slice(0, index), film.comments.slice(index + 1));
+
+    return this.updateFilm(film.id, film);
+  }
+
+  addComment(comment, film) {
+    film.comments = [].concat(film.comments, comment);
+
+    return this.updateFilm(film.id, film);
   }
 
   setFilterChangeHandler(handler) {
