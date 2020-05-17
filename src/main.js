@@ -14,7 +14,7 @@ import {generateFilmsInside} from './mock/filmsInside.js';
 
 import {render} from './utils/render.js';
 
-const FILMS_COUNT = 10;
+const FILMS_COUNT = 50;
 
 const siteBodyElement = document.querySelector(`body`);
 const siteHeaderElement = siteBodyElement.querySelector(`.header`);
