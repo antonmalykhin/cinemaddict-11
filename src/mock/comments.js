@@ -19,6 +19,7 @@ const Names = [
 
 const generateComment = () => {
   return {
+    id: String(new Date() + Math.random()),
     emoji: getRandomArrayItem(Emojis),
     commentText: getRandomArrayItem(Comments),
     commentAuthor: getRandomArrayItem(Names),

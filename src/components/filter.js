@@ -1,20 +1,18 @@
 import AbstractComponent from './abstract-component';
 
 const createFilterItem = (filter) => {
-  const {name, count} = filter;
+  const {name, count, isActive} = filter;
   return (
-    `<a href="#${name.toLocaleLowerCase()}"  class="main-navigation__item">${name} <span class="main-navigation__item-count">${count}</span></a>`
+    `<a href="#${name.toLowerCase()}" class="main-navigation__item ${isActive ? `main-navigation__item--active` : ``}">${name === `All` ? `${name} movies` : `${name} <span class="main-navigation__item-count">${count}</span>`}</a>`
   );
 };
 
 const createFiltersTemplate = (filters) => {
-
   const filterItems = filters.map((it) => createFilterItem(it)).join(`\n`);
 
   return (
     `<nav class="main-navigation">
       <div class="main-navigation__items">
-        <a href="#all"  class="main-navigation__item   main-navigation__item--active">All movies</ a>
         ${filterItems}
       </div>
       <a href="#stats" class="main-navigation__additional">Stats</a>
@@ -31,6 +29,19 @@ class Filters extends AbstractComponent {
 
   getTemplate() {
     return createFiltersTemplate(this._filters);
+  }
+
+  setFilterClickHandler(handler) {
+    this.getElement().querySelector(`.main-navigation__items`)
+      .addEventListener(`click`, (evt) => {
+
+        if (evt.target.tagName !== `A`) {
+          return;
+        }
+
+        let filterType = `${evt.target.hash}`.slice(1, evt.target.hash.length);
+        handler(filterType[0].toUpperCase() + filterType.slice(1));
+      });
   }
 }
 
