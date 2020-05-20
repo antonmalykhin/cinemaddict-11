@@ -31,6 +31,27 @@ class Filters extends AbstractComponent {
     return createFiltersTemplate(this._filters);
   }
 
+  _removeStatisticActiveClass() {
+    const statisticButton = this.getElement().querySelector(`.main-navigation__additional`);
+
+    if (!statisticButton.classList.contains(`main-navigation__additional--active`)) {
+      return;
+    }
+
+    statisticButton.classList.remove(`main-navigation__additional--active`);
+  }
+
+  _removeFilterActiveClass() {
+
+    const activeFilterButton = this.getElement().querySelector(`.main-navigation__item--active`);
+
+    if (!activeFilterButton) {
+      return;
+    }
+
+    activeFilterButton.classList.remove(`main-navigation__item--active`);
+  }
+
   setFilterClickHandler(handler) {
     this.getElement().querySelector(`.main-navigation__items`)
       .addEventListener(`click`, (evt) => {
@@ -39,8 +60,23 @@ class Filters extends AbstractComponent {
           return;
         }
 
+        this._removeStatisticActiveClass();
+
         let filterType = `${evt.target.hash}`.slice(1, evt.target.hash.length);
         handler(filterType[0].toUpperCase() + filterType.slice(1));
+      });
+  }
+
+  setStatisticClickHandler(handler) {
+    this.getElement().querySelector(`.main-navigation__additional`)
+      .addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+
+        this._removeFilterActiveClass();
+
+        evt.target.classList.add(`main-navigation__item--active`);
+
+        handler();
       });
   }
 }
