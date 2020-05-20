@@ -4,6 +4,8 @@ import FilmListTitleComponent from '../components/film-list-title.js';
 import ShowMoreButtonComponent from '../components/show-more-btn.js';
 import FilmController from './film.js';
 
+import UserProfileComponent from '../components/user-profile.js';
+
 import {ExtraFilmListTitles, MAIN_FILM_LIST_TITLE, NO_FILM_LIST_TITLE, SortingType} from '../const.js';
 import {remove, render, RenderPosition} from '../utils/render.js';
 
@@ -70,6 +72,8 @@ class PageController {
     this._showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
     this.sortingType = SortingType.DEFAULT;
     this._body = document.querySelector(`body`);
+
+    this._header = document.queryCommandEnabled(`header`);
   }
 
   render() {
@@ -99,6 +103,16 @@ class PageController {
 
     this._renderShowMoreButton();
 
+  }
+
+  hide() {
+    this._container.hide();
+    this._sortingComponent.hide();
+  }
+
+  show() {
+    this._container.show();
+    this._sortingComponent.show();
   }
 
   _renderFilms(films) {

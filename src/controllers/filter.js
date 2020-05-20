@@ -5,9 +5,10 @@ import {FilterType} from '../const.js';
 import {getFilmsByFilter} from '../utils/filter.js';
 
 class FilterController {
-  constructor(container, filmsModel) {
+  constructor(container, filmsModel, onContentChange) {
     this._container = container;
     this._filmsModel = filmsModel;
+    this._onContentChange = onContentChange;
 
     this._currentFilter = FilterType.ALL;
     this._filterComponent = null;
@@ -35,6 +36,10 @@ class FilterController {
     this._filterComponent = new FilterComponent(filters);
     this._filterComponent.setFilterClickHandler(this._onFilterChange);
 
+    if (this._onStatisticClickHandler) {
+      this._filterComponent.setStatisticClickHandler(this._onStatisticClickHandler);
+    }
+
     if (oldComponent) {
       replace(this._filterComponent, oldComponent);
     } else {
@@ -45,11 +50,18 @@ class FilterController {
   _onFilterChange(filterType) {
     this._filmsModel.setFilter(filterType);
     this._currentFilter = filterType;
+    this._onContentChange();
     this.render();
   }
 
   _onDataChange() {
     this.render();
+  }
+
+  setOnStatisticClick(handler) {
+    this._filterComponent.setStatisticClickHandler(handler);
+
+    this._onStatisticClickHandler = handler;
   }
 }
 
