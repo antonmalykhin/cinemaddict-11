@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {ProfileRank} from '../const.js';
 
 const getRandomArrayItem = (array) => {
   return array[Math.floor(Math.random() * array.length)];
@@ -32,6 +33,12 @@ const formatTime = (time) => {
   return hours ? `${hours}h ${minutes}m` : `${minutes}m`;
 };
 
+const getFormattedTime = (time) => {
+  const duration = moment.duration(time, `minutes`);
+
+  return {hours: Math.floor(duration.asHours()), minutes: duration.minutes()};
+};
+
 const formatCommentDateTime = (date, timeFrame) => {
   return moment().diff(moment(date), `days`) < timeFrame ? moment(date).fromNow() : moment(date).format(`YYYY/MM/DD hh:mm`);
 };
@@ -45,5 +52,17 @@ const sortMinToMax = (a, b) => {
   return 0;
 };
 
+const getUserRank = (watchedFilmsCount) => {
+  if (watchedFilmsCount > 0 && watchedFilmsCount <= 10) {
+    return ProfileRank.NOVICE;
+  } else if (watchedFilmsCount > 10 && watchedFilmsCount <= 20) {
+    return ProfileRank.FAN;
+  } else if (watchedFilmsCount > 20) {
+    return ProfileRank.MOVIE_BUFF;
+  } else {
+    return ``;
+  }
+};
 
-export {formatDate, formatTime, formatCommentDateTime, getYear, getRandomArrayItem, getRandomDateTime, getRandomIntegerNumber, sortMinToMax};
+
+export {formatDate, formatTime, getFormattedTime, formatCommentDateTime, getYear, getRandomArrayItem, getRandomDateTime, getRandomIntegerNumber, sortMinToMax, getUserRank};
