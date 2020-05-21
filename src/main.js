@@ -14,7 +14,7 @@ import {generateFilmsInside} from './mock/filmsInside.js';
 
 import {render} from './utils/render.js';
 
-const FILMS_COUNT = 50;
+const FILMS_COUNT = 10;
 
 const siteBodyElement = document.querySelector(`body`);
 const siteHeaderElement = siteBodyElement.querySelector(`.header`);
@@ -34,14 +34,17 @@ filmsModel.setFilms(films);
 const filterController = new FilterController(siteMainElement, filmsModel, () => {
   pageController.show();
   sortingComponent.show();
+  statisticComponent.hide();
+  statisticComponent.setDefaultFilter();
 });
 filterController.render();
 
 const pageController = new PageController(filmBoardComponent, sortingComponent, filmsModel);
 pageController.render();
 
-const statisticComponent = new StatisticComponent();
+const statisticComponent = new StatisticComponent(filmsModel);
 render(siteMainElement, statisticComponent);
+statisticComponent.hide();
 
 const footerStatisticsElement = siteBodyElement.querySelector(`.footer__statistics`);
 const filmsInside = generateFilmsInside();
@@ -49,6 +52,7 @@ const filmsInside = generateFilmsInside();
 render(footerStatisticsElement, new FooterStatisticsComponent(filmsInside));
 
 filterController.setOnStatisticClick(() => {
+  statisticComponent.rerender();
   pageController.hide();
   statisticComponent.show();
 });

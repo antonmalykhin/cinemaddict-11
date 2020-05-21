@@ -4,8 +4,6 @@ import FilmListTitleComponent from '../components/film-list-title.js';
 import ShowMoreButtonComponent from '../components/show-more-btn.js';
 import FilmController from './film.js';
 
-import UserProfileComponent from '../components/user-profile.js';
-
 import {ExtraFilmListTitles, MAIN_FILM_LIST_TITLE, NO_FILM_LIST_TITLE, SortingType} from '../const.js';
 import {remove, render, RenderPosition} from '../utils/render.js';
 

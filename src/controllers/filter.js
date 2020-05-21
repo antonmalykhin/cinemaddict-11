@@ -15,6 +15,7 @@ class FilterController {
 
     this._onDataChange = this._onDataChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
+    this.setOnStatisticClick = this.setOnStatisticClick.bind(this);
 
     this._filmsModel.setDataChangeHandler(this._onDataChange);
   }
