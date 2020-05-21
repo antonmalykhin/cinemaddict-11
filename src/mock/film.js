@@ -53,6 +53,11 @@ const Dates = {
   END: new Date(`01.01.1980`)
 };
 
+const WatchedDates = {
+  START: new Date(`01.01.2020`),
+  END: new Date()
+};
+
 const Rating = {
   MAX: 10,
   FIXED: 1
@@ -97,6 +102,7 @@ const generateFilm = () => {
   const filmDuration = getRandomIntegerNumber(Duration.MIN, Duration.MAX);
   const filmDescriptionLength = getRandomIntegerNumber(Description.MIN, Description.MAX);
   const filmReleaseRaw = getRandomDate(Dates.START, Dates.END);
+  const watched = Math.random() > 0.5;
 
   return {
     id: String(new Date() + Math.random()),
@@ -113,8 +119,9 @@ const generateFilm = () => {
     description: getRandomDescription(filmDescriptionLength),
     comments: generateComments(getRandomIntegerNumber(Comments.MIN, Comments.MAX)),
     inWatchlist: Math.random() > 0.5,
-    isWatched: Math.random() > 0.5,
-    isFavorite: Math.random() > 0.5
+    isWatched: watched,
+    isFavorite: watched ? Math.random() > 0.5 : null,
+    watchingDate: watched ? getRandomDate(WatchedDates.START, WatchedDates.END) : null
   };
 };
 
