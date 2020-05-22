@@ -42,9 +42,10 @@ const getSortedFilms = (films, sortingType, from, to) => {
 };
 
 class PageController {
-  constructor(container, sorting, filmsModel) {
+  constructor(container, sorting, filmsModel, api) {
     this._container = container;
     this._filmsModel = filmsModel;
+    this._api = api;
 
     this._showedFilmControllers = [];
     this._showedExtraFilmsControllers = [];
@@ -213,30 +214,36 @@ class PageController {
 
   _onDataChange(filmController, oldData, newData) {
     if (newData === null) {
-      const isSuccess = this._filmsModel.removeComment(oldData.commentId, oldData.film);
+      this._api.removeComment(oldData.commentId)
+        .then(() => {
+          const isSuccess = this._filmsModel.removeComment(oldData.commentId, oldData.film);
 
-      if (isSuccess) {
-        this._updateFilmControllers(oldData);
-      }
+          if (isSuccess) {
+            this._updateFilmControllers(oldData);
+          }
+        });
     } else if (oldData === null) {
+      this._api.createComment(newData.film.id, newData.comment)
+        .then((film) => {
+          const isSuccess = this._filmsModel.addComment(film.comments.pop(), film);
 
-      const isSuccess = this._filmsModel.addComment(newData.comment, newData.film);
-
-      if (isSuccess) {
-
-        this._updateFilmControllers(newData);
-
-      }
+          if (isSuccess) {
+            this._updateFilmControllers(newData);
+          }
+        });
     } else {
-      const isSuccess = this._filmsModel.updateFilm(oldData.id, newData);
+      this._api.updateFilm(oldData.id, newData)
+        .then((filmModel) => {
+          const isSuccess = this._filmsModel.updateFilm(oldData.id, filmModel);
 
-      if (isSuccess) {
-        filmController.render(newData);
+          if (isSuccess) {
+            filmController.render(filmModel);
 
-        this._showedFilmControllers.concat(this._showedExtraFilmsControllers)
-          .filter((controller) => controller.id === oldData.id)
-          .forEach((controller) => controller.render(newData));
-      }
+            this._showedFilmControllers.concat(this._showedExtraFilmsControllers)
+              .filter((controller) => controller.id === oldData.id)
+              .forEach((controller) => controller.render(newData));
+          }
+        });
     }
   }
 
