@@ -13,6 +13,11 @@ const ExtraFilmListTitles = {
   MOST_COMMENTED: `Most commented`
 };
 
+const ProfileRank = {
+  NOVICE: `Novice`,
+  FAN: `Fan`,
+  MOVIE_BUFF: `Movie Buff`
+};
 
 const FilterNames = [
   `All`,
@@ -34,5 +39,13 @@ const SortingType = {
   BY_RATING: `by-rating`
 };
 
+const StatisticFilters = [
+  `All time`,
+  `Today`,
+  `Week`,
+  `Month`,
+  `Year`
+];
 
-export {MAIN_FILM_LIST_TITLE, NO_FILM_LIST_TITLE, Emojis, ExtraFilmListTitles, FilterNames, FilterType, SortingType};
+
+export {MAIN_FILM_LIST_TITLE, NO_FILM_LIST_TITLE, Emojis, ExtraFilmListTitles, FilterNames, FilterType, SortingType, ProfileRank, StatisticFilters};

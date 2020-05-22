@@ -70,6 +70,8 @@ class PageController {
     this._showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
     this.sortingType = SortingType.DEFAULT;
     this._body = document.querySelector(`body`);
+
+    this._header = document.queryCommandEnabled(`header`);
   }
 
   render() {
@@ -99,6 +101,16 @@ class PageController {
 
     this._renderShowMoreButton();
 
+  }
+
+  hide() {
+    this._container.hide();
+    this._sortingComponent.hide();
+  }
+
+  show() {
+    this._container.show();
+    this._sortingComponent.show();
   }
 
   _renderFilms(films) {

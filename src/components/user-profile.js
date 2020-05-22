@@ -1,25 +1,28 @@
 import AbstractComponent from './abstract-component';
+import {getUserRank} from '../utils/common.js';
 
-const createUserProfileTemplate = (user) => {
-  const {userName, avatar} = user;
+const DEFAULT_AVATAR = `bitmap@2x.png`;
+
+const createUserProfileTemplate = (films) => {
+  const userRank = getUserRank(films);
 
   return (
     `<section class="header__profile profile">
-      <p class="profile__rating">${userName}</p>
-      <img class="profile__avatar" src=${avatar} alt="Avatar" width="35" height="35">
+      <p class="profile__rating">${userRank}</p>
+      <img class="profile__avatar" src="images/${DEFAULT_AVATAR}" alt="Avatar" width="35" height="35">
     </section>`
   );
 };
 
 class UserProfile extends AbstractComponent {
-  constructor(user) {
+  constructor(films) {
     super();
 
-    this._user = user;
+    this._films = films;
   }
 
   getTemplate() {
-    return createUserProfileTemplate(this._user);
+    return createUserProfileTemplate(this._films);
   }
 }
 
