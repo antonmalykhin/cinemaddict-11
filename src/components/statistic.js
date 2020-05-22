@@ -56,7 +56,8 @@ const renderChart = (statisticCtx, films) => {
         data: genreValues,
         backgroundColor: `#ffe800`,
         hoverBackgroundColor: `#ffe800`,
-        anchor: `start`
+        anchor: `start`,
+        barThickness: 24
       }]
     },
     options: {
@@ -82,7 +83,6 @@ const renderChart = (statisticCtx, films) => {
             display: false,
             drawBorder: false
           },
-          barThickness: 24
         }],
         xAxes: [{
           ticks: {
@@ -133,7 +133,7 @@ const getFilmsByFilter = (filter, films) => {
   const pastDate = getPastDate(filter);
 
   return films.filter((film) => {
-    const watchingDate = film.watchingDate;
+    const watchingDate = new Date(film.watchingDate);
     return pastDate ? watchingDate >= pastDate && watchingDate <= new Date() : film;
   });
 };
