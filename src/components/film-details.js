@@ -228,7 +228,7 @@ class FilmDetails extends AbstractComponent {
     form.reset();
   }
 
-  emojiChange() {
+  emojiChange(handler) {
     const element = this.getElement();
 
     element.querySelector(`.film-details__emoji-list`)
@@ -238,23 +238,30 @@ class FilmDetails extends AbstractComponent {
           return;
         }
 
+        handler();
+
         this.getElement().querySelector(`.film-details__add-emoji-label`).innerHTML = createAddEmojiTemplate(evt.target.value);
       });
   }
 
   setOnDeleteButtonCLickHandler(handler) {
-    const comments = this.getElement().querySelectorAll(`.film-details__comment`);
+    const deleteButton = this.getElement().querySelectorAll(`.film-details__comment-delete`);
 
-    comments.forEach((comment) => {
-      const deleteButton = comment.querySelector(`.film-details__comment-delete`);
+    deleteButton.forEach((button) => button.addEventListener(`click`, (evt) => {
+      evt.preventDefault();
 
-      deleteButton.addEventListener(`click`, (evt) => {
-        evt.preventDefault();
+      button.disabled = true;
+      button.textContent = `Deleting...`;
 
-        handler(comment.id);
-        comment.remove();
-      });
-    });
+      const commentId = button.closest(`.film-details__comment`).id;
+
+      handler(commentId, button);
+    }));
+  }
+
+  setOnInputCommentHandler(handler) {
+    const commentField = this.getElement().querySelector(`.film-details__comment-input`);
+    commentField.addEventListener(`input`, handler);
   }
 
   getData() {
@@ -262,6 +269,7 @@ class FilmDetails extends AbstractComponent {
     const formData = new FormData(form);
 
     return {
+      formElements: form.querySelectorAll(`input, textarea, button`),
       comment: parseFormData(formData),
       film: this._film
     };

@@ -3,6 +3,17 @@ import FilmCardComponent from '../components/film-card.js';
 import FilmDetailsComponent from '../components/film-details.js';
 import {render, remove, replace} from '../utils/render.js';
 
+const SHAKE_ANIMATION_TIMEOUT = 600;
+const Warning = {
+  ON: `0 0 0 3px crimson`,
+  OFF: `none`
+};
+
+const FormElementClass = {
+  TEXTAREA: `.film-details__comment-input`,
+  EMOJI: `.film-details__add-emoji-label`
+};
+
 class FilmController {
   constructor(container, onDataChange, onViewChange) {
     this.id = null;
@@ -31,6 +42,7 @@ class FilmController {
   }
 
   setDefaultFilmView() {
+    this._clearWarning();
     this._filmDetailsComponent.clearFormData();
     this._filmDetailsComponent.getElement().remove();
   }
@@ -40,6 +52,26 @@ class FilmController {
     remove(this._filmDetailsComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
     document.removeEventListener(`keydown`, this._onAddNewComment);
+  }
+
+  shake() {
+    this._filmComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+    this._filmDetailsComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+
+    setTimeout(() => {
+      this._filmComponent.getElement().style.animation = ``;
+      this._filmDetailsComponent.getElement().style.animation = ``;
+    }, SHAKE_ANIMATION_TIMEOUT);
+  }
+
+  _setStyle(className, style) {
+    const element = this._filmDetailsComponent.getElement().querySelector(className);
+    element.style.boxShadow = style;
+  }
+
+  _clearWarning() {
+    this._setStyle(FormElementClass.TEXTAREA, Warning.OFF);
+    this._setStyle(FormElementClass.EMOJI, Warning.OFF);
   }
 
   _setFilmEvents(film) {
@@ -82,11 +114,17 @@ class FilmController {
       this._onFavoritesChange(film);
     });
 
-    this._filmDetailsComponent.setOnDeleteButtonCLickHandler((commentId) => {
-      this._onDataChange(this, {film, commentId}, null);
+    this._filmDetailsComponent.setOnDeleteButtonCLickHandler((commentId, button) => {
+      this._onDataChange(this, {film, commentId, button}, null);
     });
 
-    this._filmDetailsComponent.emojiChange();
+    this._filmDetailsComponent.setOnInputCommentHandler(() => {
+      this._onInputCommentText();
+    });
+
+    this._filmDetailsComponent.emojiChange(() => {
+      this._clearWarning();
+    });
   }
 
   _onWatchlistChange(film) {
@@ -114,15 +152,36 @@ class FilmController {
     this._onDataChange(this, film, newFilm);
   }
 
+  _onInputCommentText() {
+    this._clearWarning();
+  }
+
   _onAddNewComment(evt) {
     if (evt.key === `Enter` && (evt.ctrlKey || evt.metaKey)) {
       const data = this._filmDetailsComponent.getData();
-      const invalidData = Object.values(data.comment).some((value) => !value);
 
-      if (invalidData) {
+      if (data.comment.emotion && !data.comment.comment) {
+        this._setStyle(FormElementClass.TEXTAREA, Warning.ON);
+        return;
+      } else if (data.comment.comment && !data.comment.emotion) {
+        this._setStyle(FormElementClass.EMOJI, Warning.ON);
+        return;
+      } else if (!data.comment.comment && !data.comment.emotion) {
+        this._setStyle(FormElementClass.TEXTAREA, Warning.ON);
+        this._setStyle(FormElementClass.EMOJI, Warning.ON);
         return;
       }
 
+
+      data.formElements.forEach((element) => {
+        element.disabled = true;
+
+        if (element.tagName === `TEXTAREA`) {
+          element.style.boxShadow = null;
+        }
+      });
+
+      document.removeEventListener(`keydown`, this._onAddNewComment);
       this._onDataChange(this, null, data);
     }
   }
