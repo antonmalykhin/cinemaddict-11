@@ -10,7 +10,6 @@ import {remove, render, RenderPosition} from '../utils/render.js';
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
-
 const renderFilms = (films, filmListComponent, popupContainer, onDataChange, onViewChange) => {
   const filmContainer = filmListComponent.getElement().querySelector(`.films-list__container`);
 
@@ -28,7 +27,7 @@ const getSortedFilms = (films, sortingType, from, to) => {
 
   switch (sortingType) {
     case SortingType.BY_DATE:
-      sortedFilms = showingFilms.sort((a, b) => a.release - b.release);
+      sortedFilms = showingFilms.sort((a, b) => new Date(a.release) - new Date(b.release));
       break;
     case SortingType.BY_RATING:
       sortedFilms = showingFilms.sort((a, b) => b.rating - a.rating);
@@ -212,6 +211,12 @@ class PageController {
     this._renderMostCommentedFilms();
   }
 
+  _shakeFilmCards(id) {
+    this._showedFilmControllers.concat(this._showedExtraFilmsControllers)
+    .filter((controller) => controller.id === id)
+    .forEach((controller) => controller.shake());
+  }
+
   _onDataChange(filmController, oldData, newData) {
     if (newData === null) {
       this._api.removeComment(oldData.commentId)
@@ -221,6 +226,14 @@ class PageController {
           if (isSuccess) {
             this._updateFilmControllers(oldData);
           }
+        })
+        .catch(() => {
+          oldData.button.disabled = false;
+          oldData.button.textContent = `Delete`;
+          this._showedFilmControllers.concat(this._showedExtraFilmsControllers)
+            .filter((controller) => controller.id === oldData.film.id)
+            .forEach((controller) => controller.shake());
+
         });
     } else if (oldData === null) {
       this._api.createComment(newData.film.id, newData.comment)
@@ -230,6 +243,19 @@ class PageController {
           if (isSuccess) {
             this._updateFilmControllers(newData);
           }
+        })
+        .catch(() => {
+          document.querySelectorAll(`[disabled]`).forEach((element) => {
+            element.disabled = false;
+
+            if (element.tagName === `TEXTAREA`) {
+              element.style.boxShadow = `0 0 0 2px tomato`;
+            }
+          });
+
+          this._showedFilmControllers.concat(this._showedExtraFilmsControllers)
+      .filter((controller) => controller.id === oldData.film.id)
+      .forEach((controller) => controller.shake());
         });
     } else {
       this._api.updateFilm(oldData.id, newData)
@@ -243,6 +269,11 @@ class PageController {
               .filter((controller) => controller.id === oldData.id)
               .forEach((controller) => controller.render(newData));
           }
+        })
+        .catch(() => {
+          this._showedFilmControllers.concat(this._showedExtraFilmsControllers)
+            .filter((controller) => controller.id === oldData.id)
+            .forEach((controller) => controller.shake());
         });
     }
   }
