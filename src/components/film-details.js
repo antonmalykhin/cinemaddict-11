@@ -9,28 +9,26 @@ const TIME_FRAME = 5;
 
 const parseFormData = (formData) => {
   return {
-    id: String(new Date() + Math.random()),
-    emoji: formData.get(`comment-emoji`),
-    commentText: encode(formData.get(`comment`)),
-    commentAuthor: `User`,
-    date: Date.now(),
+    comment: encode(formData.get(`comment`)),
+    date: new Date().toISOString(),
+    emotion: formData.get(`comment-emoji`)
   };
 };
 
-const createCommentTemplate = (comment) => {
-  const {id, emoji, commentText, commentAuthor, date} = comment;
+const createCommentTemplate = (commentData) => {
+  const {id, emotion, comment, author, date} = commentData;
 
   const commentFormattedDateTime = formatCommentDateTime(date, TIME_FRAME);
 
   return (
     `<li class="film-details__comment" id="${id}">
     <span class="film-details__comment-emoji">
-      <img src="./images/emoji/${emoji}.png" width="55" height="55" alt="emoji-${emoji}">
+      <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">
     </span>
     <div>
-      <p class="film-details__comment-text">${commentText}</p>
+      <p class="film-details__comment-text">${comment}</p>
       <p class="film-details__comment-info">
-        <span class="film-details__comment-author">${commentAuthor}</span>
+        <span class="film-details__comment-author">${author}</span>
         <span class="film-details__comment-day">${commentFormattedDateTime}</span>
         <button class="film-details__comment-delete">Delete</button>
       </p>
@@ -76,6 +74,8 @@ const createFilmDetailsTemplate = (film) => {
 
   const {director: director, writers: writers, actors: actors} = productionTeam;
 
+  const formattedWriters = writers.join(`, `);
+  const formattedActors = actors.join(`, `);
   const addToWatchlistButton = createButtonsTemplate(`Add to watchlist`, `watchlist`, !film.inWatchlist);
   const alreadyWatchedButton = createButtonsTemplate(`Already watched`, `watched`, !film.isWatched);
   const addToFavoritesButton = createButtonsTemplate(`Add to favorites`, `favorite`, !film.isFavorite);
@@ -118,11 +118,11 @@ const createFilmDetailsTemplate = (film) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Writers</td>
-                <td class="film-details__cell">${writers}</td>
+                <td class="film-details__cell">${formattedWriters}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Actors</td>
-                <td class="film-details__cell">${actors}</td>
+                <td class="film-details__cell">${formattedActors}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
