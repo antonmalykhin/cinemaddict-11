@@ -22,16 +22,30 @@ export default class Films {
 
   getCommentedFilms() {
     const films = this.getFilmsAll();
+    const isNoComments = films.map((film) => film.comments.length).every((it) => it === 0);
+
+    if (isNoComments) {
+      return [];
+    }
+
     return films
       .slice()
+      .filter((film) => film.comments.length > 0)
       .sort((a, b) => b.comments.length - a.comments.length)
       .slice(0, EXTRA_FILMS_NUM);
   }
 
   getRatedFilms() {
     const films = this.getFilmsAll();
+    const isNoRating = films.map((film) => film.rating).every((it) => it === 0);
+
+    if (isNoRating) {
+      return [];
+    }
+
     return films
       .slice()
+      .filter((film) => film.rating > 0)
       .sort((a, b) => b.rating - a.rating)
       .slice(0, EXTRA_FILMS_NUM);
   }
