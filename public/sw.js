@@ -35,6 +35,9 @@ self.addEventListener(`install`, (evt) => {
             `/images/bitmap@3x.png`
           ]);
         })
+        .catch((error) => {
+          throw new Error(error);
+        })
   );
 });
 
@@ -55,6 +58,9 @@ self.addEventListener(`activate`, (evt) => {
                   .filter((key) => key !== null)
             )
         )
+        .catch((error) => {
+          throw new Error(error);
+        })
   );
 });
 
@@ -81,6 +87,9 @@ const onFetch = (evt) => {
 
               return response;
             });
+        })
+        .catch((error) => {
+          throw new Error(error);
         })
   );
 };
