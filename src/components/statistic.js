@@ -27,8 +27,8 @@ const getGenresStatistic = (films) => {
   const genres = getAllGenre(films);
 
   if (genres.length) {
-    genresStat = genres.reduce((acc, it) => {
-      acc[it] = (acc[it] || 0) + 1;
+    genresStat = genres.reduce((acc, genre) => {
+      acc[genre] = (acc[genre] || 0) + 1;
       return acc;
     }, {});
   } else {

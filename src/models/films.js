@@ -22,7 +22,7 @@ export default class Films {
 
   getCommentedFilms() {
     const films = this.getFilmsAll();
-    const isNoComments = films.map((film) => film.comments.length).every((it) => it === 0);
+    const isNoComments = films.map((film) => film.comments.length).every((film) => film === 0);
 
     if (isNoComments) {
       return [];
@@ -37,7 +37,7 @@ export default class Films {
 
   getRatedFilms() {
     const films = this.getFilmsAll();
-    const isNoRating = films.map((film) => film.rating).every((it) => it === 0);
+    const isNoRating = films.map((film) => film.rating).every((film) => film === 0);
 
     if (isNoRating) {
       return [];
@@ -61,7 +61,7 @@ export default class Films {
   }
 
   updateFilm(id, newFilm) {
-    const index = this._films.findIndex((it) => it.id === id);
+    const index = this._films.findIndex((film) => film.id === id);
 
     if (index === -1) {
       return false;

@@ -203,9 +203,10 @@ export default class PageController {
   }
 
   _updateFilmControllers(data) {
-    this._showedFilmControllers.concat(this._showedExtraFilmsControllers)
+    this._showedFilmControllers
+      .concat(this._showedExtraFilmsControllers)
       .filter((controller) => controller.id === data.film.id)
-      .forEach((controller) => controller.render(this._filmsModel.getFilmsAll().find((it) => it.id === data.film.id)));
+      .forEach((controller) => controller.render(this._filmsModel.getFilmsAll().find((film) => film.id === data.film.id)));
 
     this._removeExtraLists();
     this._renderTopRatedFilms();
@@ -279,8 +280,8 @@ export default class PageController {
   }
 
   _onViewChange() {
-    this._showedFilmControllers.forEach((it) => {
-      it.setDefaultFilmView();
+    this._showedFilmControllers.forEach((controller) => {
+      controller.setDefaultFilmView();
     });
   }
 

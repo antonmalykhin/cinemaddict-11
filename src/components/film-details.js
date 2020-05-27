@@ -89,35 +89,35 @@ const createButtonsTemplate = (name, className, isChecked = true) => {
 
 const createGenresTemplate = (genres) => {
   return genres
-    .map((it) => `<span class="film-details__genre">${it}</span>`)
+    .map((genre) => `<span class="film-details__genre">${genre}</span>`)
     .join(`\n`);
 };
 
 const createFilmDetailsTemplate = (film) => {
 
   const {
-    poster: poster,
-    ageRate: ageRate,
-    title: title,
-    productionTeam: productionTeam,
-    originalTitle: originalTitle,
-    rating: rating,
-    release: releaseDate,
-    runtime: runtime,
-    genres: genres,
-    country: country,
-    description: description,
-    comments: comments
+    poster,
+    ageRate,
+    title,
+    productionTeam,
+    originalTitle,
+    rating,
+    release,
+    runtime,
+    genres,
+    country,
+    description,
+    comments
   } = film;
 
   const {
-    director: director,
-    writers: writers,
-    actors: actors
+    director,
+    writers,
+    actors
   } = productionTeam;
 
 
-  const formattedReleaseDate = formatDate(releaseDate);
+  const formattedReleaseDate = formatDate(release);
   const formattedDuration = formatTime(runtime);
 
   const formattedWriters = writers.join(`, `);
@@ -146,7 +146,7 @@ const createFilmDetailsTemplate = (film) => {
   const sortedComments = comments.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
 
   const commentItems = sortedComments
-    .map((it) => createCommentTemplate(it))
+    .map((comment) => createCommentTemplate(comment))
     .join(`\n`);
 
   const commentsCount = comments.length;

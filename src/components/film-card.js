@@ -27,14 +27,14 @@ const createButtonTemplate = (name, className, isActive = true) => {
 
 const createFilmCardTemplate = (film) => {
   const {
-    poster: poster,
-    title: title,
-    rating: rating,
-    release: date,
-    runtime: duration,
-    genres: genres,
-    description: description,
-    comments: comments
+    poster,
+    title,
+    rating,
+    release,
+    runtime,
+    genres,
+    description,
+    comments
   } = film;
 
   const filmGenre = genres.length ? genres[0] : ``;
@@ -43,8 +43,8 @@ const createFilmCardTemplate = (film) => {
 
   const filmCommentsCount = comments.length === 1 ? `${comments.length} comment` : `${comments.length} comments`;
 
-  const formattedDate = getYear(date);
-  const formattedDuration = formatTime(duration);
+  const formattedDate = getYear(release);
+  const formattedDuration = formatTime(runtime);
 
   const addToWatchButton = createButtonTemplate(
       ButtonsProperties.WATCHLIST.NAME,

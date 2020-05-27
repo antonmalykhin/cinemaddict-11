@@ -31,11 +31,11 @@ export default class Sorting extends AbstractComponent {
   _setActive(target) {
     const sortButtons = this.getElement().querySelectorAll(`.sort__button`);
 
-    sortButtons.forEach((it) => {
-      if (it === target) {
-        it.classList.add(`sort__button--active`);
-      } else if (it.classList.contains(`sort__button--active`)) {
-        it.classList.remove(`sort__button--active`);
+    sortButtons.forEach((button) => {
+      if (button === target) {
+        button.classList.add(`sort__button--active`);
+      } else if (button.classList.contains(`sort__button--active`)) {
+        button.classList.remove(`sort__button--active`);
       }
     });
   }
