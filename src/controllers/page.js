@@ -10,8 +10,15 @@ import {remove, render, RenderPosition} from '../utils/render.js';
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
+const ButtonProperties = {
+  DISABLED: false,
+  TEXT: `Delete`
+};
+
 const renderFilms = (films, filmListComponent, popupContainer, onDataChange, onViewChange) => {
-  const filmContainer = filmListComponent.getElement().querySelector(`.films-list__container`);
+  const filmContainer = filmListComponent
+    .getElement()
+    .querySelector(`.films-list__container`);
 
   return films.map((film) => {
     const filmController = new FilmController(filmContainer, onDataChange, onViewChange);
@@ -40,7 +47,7 @@ const getSortedFilms = (films, sortingType, from, to) => {
   return sortedFilms.slice(from, to);
 };
 
-class PageController {
+export default class PageController {
   constructor(container, sorting, filmsModel, api) {
     this._container = container;
     this._filmsModel = filmsModel;
@@ -69,8 +76,8 @@ class PageController {
 
     this._showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
     this.sortingType = SortingType.DEFAULT;
-    this._body = document.querySelector(`body`);
 
+    this._body = document.querySelector(`body`);
     this._header = document.queryCommandEnabled(`header`);
   }
 
@@ -94,11 +101,8 @@ class PageController {
     render(this._filmListComponent.getElement(), filmListTitle, RenderPosition.AFTERBEGIN);
 
     this._renderFilms(films.slice(0, this._showingFilmsCount));
-
     this._renderTopRatedFilms();
-
     this._renderMostCommentedFilms();
-
     this._renderShowMoreButton();
 
   }
@@ -117,7 +121,6 @@ class PageController {
     const newFilms = renderFilms(films, this._container, this._body, this._onDataChange, this._onViewChange);
 
     this._showedFilmControllers = this._showedFilmControllers.concat(newFilms);
-
     this._showingFilmsCount = this._showedFilmControllers.length;
   }
 
@@ -195,9 +198,7 @@ class PageController {
     const sortedFilms = getSortedFilms(this._filmsModel.getFilms(), sortingType, 0, this._showingFilmsCount);
 
     this._removeFilms();
-
     this._renderFilms(sortedFilms);
-
     this._renderShowMoreButton();
   }
 
@@ -212,14 +213,15 @@ class PageController {
   }
 
   _shakeFilmCards(id) {
-    this._showedFilmControllers.concat(this._showedExtraFilmsControllers)
-    .filter((controller) => controller.id === id)
-    .forEach((controller) => controller.shake());
+    this._showedFilmControllers
+      .concat(this._showedExtraFilmsControllers)
+      .filter((controller) => controller.id === id)
+      .forEach((controller) => controller.shake());
   }
 
   _onDataChange(filmController, oldData, newData) {
     if (newData === null) {
-      this._api.removeComment(oldData.commentId)
+      this._api.removeComment(oldData)
         .then(() => {
           const isSuccess = this._filmsModel.removeComment(oldData.commentId, oldData.film);
 
@@ -228,15 +230,14 @@ class PageController {
           }
         })
         .catch(() => {
-          oldData.button.disabled = false;
-          oldData.button.textContent = `Delete`;
+          oldData.button.disabled = ButtonProperties.DISABLED;
+          oldData.button.textContent = ButtonProperties.TEXT;
           this._showedFilmControllers.concat(this._showedExtraFilmsControllers)
             .filter((controller) => controller.id === oldData.film.id)
             .forEach((controller) => controller.shake());
-
         });
     } else if (oldData === null) {
-      this._api.createComment(newData.film.id, newData.comment)
+      this._api.createComment(newData.film, newData.comment)
         .then((film) => {
           const isSuccess = this._filmsModel.addComment(film.comments.pop(), film);
 
@@ -248,15 +249,14 @@ class PageController {
           document.querySelectorAll(`[disabled]`).forEach((element) => {
             element.disabled = false;
 
-            if (element.tagName === `TEXTAREA`) {
-              element.style.boxShadow = `0 0 0 2px tomato`;
-            }
+            filmController.showWarning();
           });
 
           this._showedFilmControllers.concat(this._showedExtraFilmsControllers)
-      .filter((controller) => controller.id === oldData.film.id)
+      .filter((controller) => controller.id === newData.film.id)
       .forEach((controller) => controller.shake());
         });
+      document.addEventListener(`keydown`, newData.enableForm);
     } else {
       this._api.updateFilm(oldData.id, newData)
         .then((filmModel) => {
@@ -267,7 +267,7 @@ class PageController {
 
             this._showedFilmControllers.concat(this._showedExtraFilmsControllers)
               .filter((controller) => controller.id === oldData.id)
-              .forEach((controller) => controller.render(newData));
+              .forEach((controller) => controller.render(filmModel));
           }
         })
         .catch(() => {
@@ -289,5 +289,3 @@ class PageController {
     this._sortingComponent.resetSortingType();
   }
 }
-
-export default PageController;

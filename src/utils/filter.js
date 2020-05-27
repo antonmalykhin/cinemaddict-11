@@ -1,18 +1,18 @@
 import {FilterType} from '../const.js';
 
-const getInWhatchlistFilms = (films) => {
+export const getInWhatchlistFilms = (films) => {
   return films.filter((film) => film.inWatchlist);
 };
 
-const getWatchedFilms = (films) => {
+export const getWatchedFilms = (films) => {
   return films.filter((film) => film.isWatched);
 };
 
-const getFavoritesFilms = (films) => {
+export const getFavoritesFilms = (films) => {
   return films.filter((film) => film.isFavorite);
 };
 
-const getFilmsByFilter = (films, filterType) => {
+export const getFilmsByFilter = (films, filterType) => {
 
   switch (filterType) {
     case FilterType.ALL:
@@ -27,5 +27,3 @@ const getFilmsByFilter = (films, filterType) => {
 
   return films;
 };
-
-export {getInWhatchlistFilms, getWatchedFilms, getFavoritesFilms, getFilmsByFilter};

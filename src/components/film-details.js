@@ -1,11 +1,31 @@
 import AbstractComponent from './abstract-component.js';
-
 import {Emojis} from '../const.js';
 import {formatDate, formatTime, formatCommentDateTime} from '../utils/common.js';
 
 import {encode} from 'he';
 
 const TIME_FRAME = 5;
+const EMOJI_BUTTON_TEG = `INPUT`;
+
+const DeleteButtonProperties = {
+  DISABLED: true,
+  TEXT: `Deleting...`
+};
+
+const ButtonsProperties = {
+  WATCHLIST: {
+    NAME: `Add to watchlist`,
+    CLASS_MODIFIER: `watchlist`
+  },
+  WATCHED: {
+    NAME: `Mark as watched`,
+    CLASS_MODIFIER: `watched`
+  },
+  FAVORITE: {
+    NAME: `Mark as favorite`,
+    CLASS_MODIFIER: `favorite`
+  }
+};
 
 const parseFormData = (formData) => {
   return {
@@ -16,7 +36,13 @@ const parseFormData = (formData) => {
 };
 
 const createCommentTemplate = (commentData) => {
-  const {id, emotion, comment, author, date} = commentData;
+  const {
+    id,
+    emotion,
+    comment,
+    author,
+    date
+  } = commentData;
 
   const commentFormattedDateTime = formatCommentDateTime(date, TIME_FRAME);
 
@@ -62,25 +88,66 @@ const createButtonsTemplate = (name, className, isChecked = true) => {
 };
 
 const createGenresTemplate = (genres) => {
-  return genres.map((it) => `<span class="film-details__genre">${it}</span>`).join(`\n`);
+  return genres
+    .map((it) => `<span class="film-details__genre">${it}</span>`)
+    .join(`\n`);
 };
 
 const createFilmDetailsTemplate = (film) => {
 
-  const {poster: poster, ageRate: ageRate, title: title, productionTeam: productionTeam, originalTitle: originalTitle, rating: rating, release: releaseDate, runtime: runtime, genres: genres, country: country, description: description, comments: comments} = film;
+  const {
+    poster: poster,
+    ageRate: ageRate,
+    title: title,
+    productionTeam: productionTeam,
+    originalTitle: originalTitle,
+    rating: rating,
+    release: releaseDate,
+    runtime: runtime,
+    genres: genres,
+    country: country,
+    description: description,
+    comments: comments
+  } = film;
+
+  const {
+    director: director,
+    writers: writers,
+    actors: actors
+  } = productionTeam;
+
 
   const formattedReleaseDate = formatDate(releaseDate);
   const formattedDuration = formatTime(runtime);
 
-  const {director: director, writers: writers, actors: actors} = productionTeam;
-
   const formattedWriters = writers.join(`, `);
   const formattedActors = actors.join(`, `);
-  const addToWatchlistButton = createButtonsTemplate(`Add to watchlist`, `watchlist`, !film.inWatchlist);
-  const alreadyWatchedButton = createButtonsTemplate(`Already watched`, `watched`, !film.isWatched);
-  const addToFavoritesButton = createButtonsTemplate(`Add to favorites`, `favorite`, !film.isFavorite);
 
-  const commentItems = comments.map((it) => createCommentTemplate(it)).join(`\n`);
+  const addToWatchlistButton = createButtonsTemplate(
+      ButtonsProperties.WATCHLIST.NAME,
+      ButtonsProperties.WATCHLIST.CLASS_MODIFIER,
+      !film.inWatchlist
+  );
+
+  const alreadyWatchedButton = createButtonsTemplate(
+      ButtonsProperties.WATCHED.NAME,
+      ButtonsProperties.WATCHED.CLASS_MODIFIER,
+      !film.isWatched
+  );
+
+  const addToFavoritesButton = createButtonsTemplate(
+      ButtonsProperties.FAVORITE.NAME,
+      ButtonsProperties.FAVORITE.CLASS_MODIFIER,
+      !film.isFavorite
+  );
+
+  const genreTitle = genres.length > 1 ? `Genres` : `Genre`;
+
+  const sortedComments = comments.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  const commentItems = sortedComments
+    .map((it) => createCommentTemplate(it))
+    .join(`\n`);
 
   const commentsCount = comments.length;
   const emojisTemplate = createEmojiTemplate(Emojis);
@@ -137,7 +204,7 @@ const createFilmDetailsTemplate = (film) => {
                 <td class="film-details__cell">${country}</td>
               </tr>
               <tr class="film-details__row">
-                <td class="film-details__term">Genres</td>
+                <td class="film-details__term">${genreTitle}</td>
                 <td class="film-details__cell">
                   ${createGenresTemplate(genres)}
               </tr>
@@ -183,7 +250,7 @@ const createFilmDetailsTemplate = (film) => {
   );
 };
 
-class FilmDetails extends AbstractComponent {
+export default class FilmDetails extends AbstractComponent {
   constructor(film) {
     super();
 
@@ -234,7 +301,7 @@ class FilmDetails extends AbstractComponent {
     element.querySelector(`.film-details__emoji-list`)
       .addEventListener(`click`, (evt) => {
 
-        if (evt.target.tagName !== `INPUT`) {
+        if (evt.target.tagName !== EMOJI_BUTTON_TEG) {
           return;
         }
 
@@ -250,8 +317,8 @@ class FilmDetails extends AbstractComponent {
     deleteButton.forEach((button) => button.addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
-      button.disabled = true;
-      button.textContent = `Deleting...`;
+      button.disabled = DeleteButtonProperties.DISABLED;
+      button.textContent = DeleteButtonProperties.TEXT;
 
       const commentId = button.closest(`.film-details__comment`).id;
 
@@ -275,5 +342,3 @@ class FilmDetails extends AbstractComponent {
     };
   }
 }
-
-export default FilmDetails;

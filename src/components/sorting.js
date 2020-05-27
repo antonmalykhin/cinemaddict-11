@@ -1,6 +1,8 @@
 import AbstractComponent from './abstract-component';
 import {SortingType} from '../const.js';
 
+const SORTING_BUTTON_TAG = `A`;
+
 const createSortTemplate = () => {
   return (
     `<ul class="sort">
@@ -11,7 +13,7 @@ const createSortTemplate = () => {
   );
 };
 
-class Sorting extends AbstractComponent {
+export default class Sorting extends AbstractComponent {
   constructor() {
     super();
 
@@ -48,7 +50,7 @@ class Sorting extends AbstractComponent {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
-      if (evt.target.tagName !== `A`) {
+      if (evt.target.tagName !== SORTING_BUTTON_TAG) {
         return;
       }
 
@@ -66,6 +68,3 @@ class Sorting extends AbstractComponent {
     });
   }
 }
-
-export default Sorting;
-

@@ -8,7 +8,7 @@ const createFilmListTemplate = (isExtra = false) => {
   );
 };
 
-class FilmList extends AbstractComponent {
+export default class FilmList extends AbstractComponent {
   constructor(isExtra) {
     super();
 
@@ -19,5 +19,3 @@ class FilmList extends AbstractComponent {
     return createFilmListTemplate(this._isExtra);
   }
 }
-
-export default FilmList;

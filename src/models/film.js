@@ -1,4 +1,4 @@
-class Film {
+export default class Film {
   constructor(data) {
     this.id = data[`id`];
     this.poster = data[`film_info`][`poster`];
@@ -23,32 +23,32 @@ class Film {
     this.watchingDate = data[`user_details`][`watching_date`];
   }
 
-  toRAW(clone = false) {
+  static toRAW(data, clone = false) {
     return {
-      "id": this.id,
-      "comments": clone ? this.comments : this.comments.map(({id}) => id),
+      "id": data.id,
+      "comments": clone ? data.comments : data.comments.map(({id}) => id),
       "film_info": {
-        "title": this.title,
-        "alternative_title": this.originalTitle,
-        "total_rating": this.rating,
-        "poster": this.poster,
-        "age_rating": this.ageRate,
-        "director": this.productionTeam.director,
-        "writers": this.productionTeam.writers,
-        "actors": this.productionTeam.actors,
+        "title": data.title,
+        "alternative_title": data.originalTitle,
+        "total_rating": data.rating,
+        "poster": data.poster,
+        "age_rating": data.ageRate,
+        "director": data.productionTeam.director,
+        "writers": data.productionTeam.writers,
+        "actors": data.productionTeam.actors,
         "release": {
-          "date": this.release,
-          "release_country": this.country
+          "date": data.release,
+          "release_country": data.country
         },
-        "runtime": this.runtime,
-        "genre": this.genres,
-        "description": this.description
+        "runtime": data.runtime,
+        "genre": data.genres,
+        "description": data.description
       },
       "user_details": {
-        "watchlist": this.inWatchlist,
-        "already_watched": this.isWatched,
-        "watching_date": this.watchingDate,
-        "favorite": this.isFavorite
+        "watchlist": data.inWatchlist,
+        "already_watched": data.isWatched,
+        "watching_date": data.watchingDate,
+        "favorite": data.isFavorite
       }
     };
   }
@@ -62,9 +62,6 @@ class Film {
   }
 
   static clone(data) {
-    return new Film(data.toRAW(true));
+    return new Film(this.toRAW(data, true));
   }
 }
-
-export default Film;
-

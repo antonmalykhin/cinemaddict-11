@@ -4,6 +4,14 @@ import FilmDetailsComponent from '../components/film-details.js';
 import {render, remove, replace} from '../utils/render.js';
 
 const SHAKE_ANIMATION_TIMEOUT = 600;
+const TEXTFIELD_TAG = `TEXTAREA`;
+
+const Key = {
+  ESCAPE: `Escape`,
+  ESC: `Esc`,
+  ENTER: `Enter`
+};
+
 const Warning = {
   ON: `0 0 0 3px crimson`,
   OFF: `none`
@@ -14,7 +22,7 @@ const FormElementClass = {
   EMOJI: `.film-details__add-emoji-label`
 };
 
-class FilmController {
+export default class FilmController {
   constructor(container, onDataChange, onViewChange) {
     this.id = null;
     this._container = container;
@@ -31,7 +39,7 @@ class FilmController {
   }
 
   _onEscKeyDown(evt) {
-    if (evt.key === `Escape` || evt.key === `Ecs`) {
+    if (evt.key === Key.ESCAPE || evt.key === Key.ESC) {
       this.setDefaultFilmView();
     }
   }
@@ -67,6 +75,15 @@ class FilmController {
   _setStyle(className, style) {
     const element = this._filmDetailsComponent.getElement().querySelector(className);
     element.style.boxShadow = style;
+  }
+
+  showWarning() {
+    this._setStyle(FormElementClass.TEXTAREA, Warning.ON);
+    this._setStyle(FormElementClass.EMOJI, Warning.ON);
+
+    setTimeout(() => {
+      this._clearWarning();
+    }, 1000);
   }
 
   _clearWarning() {
@@ -157,7 +174,7 @@ class FilmController {
   }
 
   _onAddNewComment(evt) {
-    if (evt.key === `Enter` && (evt.ctrlKey || evt.metaKey)) {
+    if (evt.key === Key.ENTER && (evt.ctrlKey || evt.metaKey)) {
       const data = this._filmDetailsComponent.getData();
 
       if (data.comment.emotion && !data.comment.comment) {
@@ -172,16 +189,17 @@ class FilmController {
         return;
       }
 
-
       data.formElements.forEach((element) => {
         element.disabled = true;
 
-        if (element.tagName === `TEXTAREA`) {
+        if (element.tagName === TEXTFIELD_TAG) {
           element.style.boxShadow = null;
         }
       });
 
       document.removeEventListener(`keydown`, this._onAddNewComment);
+
+      data.enableForm = this._onAddNewComment;
       this._onDataChange(this, null, data);
     }
   }
@@ -206,5 +224,3 @@ class FilmController {
     }
   }
 }
-
-export default FilmController;

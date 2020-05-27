@@ -14,7 +14,7 @@ const createUserProfileTemplate = (films) => {
   );
 };
 
-class UserProfile extends AbstractComponent {
+export default class UserProfile extends AbstractComponent {
   constructor(films) {
     super();
 
@@ -25,5 +25,3 @@ class UserProfile extends AbstractComponent {
     return createUserProfileTemplate(this._films);
   }
 }
-
-export default UserProfile;

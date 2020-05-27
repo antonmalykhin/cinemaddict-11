@@ -1,11 +1,13 @@
 import AbstractComponent from './abstract-component';
 
+const LOCALE = `ru-RU`;
+
 const createFooterStatisticsTemplate = (films) => {
-  let formattedFilms = new Intl.NumberFormat(`ru-RU`).format(films);
+  let formattedFilms = new Intl.NumberFormat(LOCALE).format(films);
   return `<p>${formattedFilms} movies inside</p>`;
 };
 
-class FooterStatistics extends AbstractComponent {
+export default class FooterStatistics extends AbstractComponent {
   constructor(filmsModel) {
     super();
 
@@ -16,5 +18,3 @@ class FooterStatistics extends AbstractComponent {
     return createFooterStatisticsTemplate(this._films);
   }
 }
-
-export default FooterStatistics;

@@ -1,4 +1,4 @@
-import Film from './models/film.js';
+import Film from '../models/film.js';
 
 const Method = {
   GET: `GET`,
@@ -7,15 +7,20 @@ const Method = {
   DELETE: `DELETE`
 };
 
+const Status = {
+  SUCCESS: 200,
+  REDIRECTION: 300
+};
+
 const checkStatus = (response) => {
-  if (response.status >= 200 && response.status < 300) {
+  if (response.status >= Status.SUCCESS && response.status < Status.REDIRECTION) {
     return response;
   } else {
     throw new Error(`${response.status}: ${response.statusText}`);
   }
 };
 
-class API {
+export default class API {
   constructor(endPoint, authorization) {
     this._endPoint = endPoint;
     this._authorization = authorization;
@@ -32,7 +37,7 @@ class API {
     return this._load({
       url: `movies/${id}`,
       method: Method.PUT,
-      body: JSON.stringify(data.toRAW()),
+      body: JSON.stringify(Film.toRAW(data)),
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then((response) => response.json())
@@ -40,16 +45,15 @@ class API {
       .then(Film.parseFilm);
   }
 
-  createComment(filmId, comment) {
+  createComment(film, comment) {
     return this._load({
-      url: `comments/${filmId}`,
+      url: `comments/${film.id}`,
       method: Method.POST,
       body: JSON.stringify(comment),
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then((response) => response.json())
       .then((data) => {
-
         const parsedFilm = Film.parseFilm(data.movie);
         parsedFilm.comments = data.comments;
 
@@ -59,6 +63,20 @@ class API {
 
   removeComment(commentId) {
     return this._load({url: `comments/${commentId}`, method: Method.DELETE});
+  }
+
+  sync(data) {
+    return this._load({
+      url: `movies/sync`,
+      method: Method.POST,
+      body: JSON.stringify(data),
+      headers: new Headers({"Content-Type": `application/json`})
+    })
+      .then((response) => response.json())
+      .then(({updated: films}) => {
+        Promise.all(films.map((film) => this._getComments(film)));
+      })
+      .then(Film.parseMovies);
   }
 
   _getComments(film) {
@@ -77,5 +95,3 @@ class API {
       });
   }
 }
-
-export default API;
