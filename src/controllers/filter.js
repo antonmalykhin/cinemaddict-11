@@ -1,10 +1,9 @@
-
 import FilterComponent from '../components/filter.js';
 import {render, replace, RenderPosition} from '../utils/render.js';
 import {FilterType} from '../const.js';
 import {getFilmsByFilter} from '../utils/filter.js';
 
-class FilterController {
+export default class FilterController {
   constructor(container, filmsModel, onContentChange) {
     this._container = container;
     this._filmsModel = filmsModel;
@@ -65,5 +64,3 @@ class FilterController {
     this._onStatisticClickHandler = handler;
   }
 }
-
-export default FilterController;

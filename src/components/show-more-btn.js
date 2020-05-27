@@ -6,7 +6,7 @@ const createShowMoreButtonTemplate = () => {
   );
 };
 
-class ShowMoreButton extends AbstractComponent {
+export default class ShowMoreButton extends AbstractComponent {
   getTemplate() {
     return createShowMoreButtonTemplate();
   }
@@ -16,5 +16,3 @@ class ShowMoreButton extends AbstractComponent {
       .addEventListener(`click`, handler);
   }
 }
-
-export default ShowMoreButton;

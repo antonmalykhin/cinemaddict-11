@@ -9,6 +9,11 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 const BAR_HEIGHT = 50;
 const DEFAULT_FILTER = `all-time`;
 
+const StatisticIndex = {
+  COUNT: 1,
+  GENRE: 0
+};
+
 const getAllGenre = (films) => {
   const genres = [];
 
@@ -35,7 +40,10 @@ const getGenresStatistic = (films) => {
 };
 
 const getMostWatchedGenre = (statistic) => {
-  return Object.entries(statistic).slice().sort((a, b) => a - b)[0][0];
+  return Object
+    .entries(statistic)
+    .slice()
+    .sort((a, b) => b[StatisticIndex.COUNT] - a[StatisticIndex.COUNT])[StatisticIndex.GENRE][StatisticIndex.GENRE];
 };
 
 const renderChart = (statisticCtx, films) => {
@@ -206,7 +214,7 @@ const createStatisticTemplate = (films, filter, userRank) => {
   );
 };
 
-class Statistic extends AbstractSmartComponent {
+export default class Statistic extends AbstractSmartComponent {
   constructor(filmsModel) {
     super();
 
@@ -273,5 +281,3 @@ class Statistic extends AbstractSmartComponent {
       });
   }
 }
-
-export default Statistic;

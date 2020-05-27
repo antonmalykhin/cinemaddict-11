@@ -4,10 +4,8 @@ const createFilmBoardTemplate = () => {
   return `<section class="films"></section>`;
 };
 
-class FilmBoard extends AbstractComponent {
+export default class FilmBoard extends AbstractComponent {
   getTemplate() {
     return createFilmBoardTemplate();
   }
 }
-
-export default FilmBoard;

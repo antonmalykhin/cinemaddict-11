@@ -5,7 +5,7 @@ const createFilmListTitleTemplate = (title, isVisible = true) => {
   `;
 };
 
-class FilmListTitle extends AbstractComponent {
+export default class FilmListTitle extends AbstractComponent {
   constructor(title, isVisible) {
     super();
 
@@ -17,7 +17,3 @@ class FilmListTitle extends AbstractComponent {
     return createFilmListTitleTemplate(this._title, this._isVisible);
   }
 }
-
-export default FilmListTitle;
-
-

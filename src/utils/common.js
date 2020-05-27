@@ -1,15 +1,19 @@
 import moment from 'moment';
 import {ProfileRank} from '../const.js';
 
-const getRandomArrayItem = (array) => {
+export const getRandomArrayItem = (array) => {
   return array[Math.floor(Math.random() * array.length)];
 };
 
-const getRandomIntegerNumber = (min, max) => {
+export const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
 };
 
-const getRandomDateTime = () => {
+export const toTitleCase = (word) => {
+  return word[0].toUpperCase() + word.slice(1);
+};
+
+export const getRandomDateTime = () => {
   const targetDateTime = new Date();
   targetDateTime.setDate(targetDateTime.getDate() - getRandomIntegerNumber(0, 10));
   targetDateTime.setHours(targetDateTime.getHours() - getRandomIntegerNumber(0, 24));
@@ -17,15 +21,15 @@ const getRandomDateTime = () => {
   return targetDateTime;
 };
 
-const formatDate = (date) => {
+export const formatDate = (date) => {
   return moment(date).format(`DD MMMM YYYY`);
 };
 
-const getYear = (date) => {
+export const getYear = (date) => {
   return moment(date).format(`YYYY`);
 };
 
-const formatTime = (time) => {
+export const formatTime = (time) => {
   const duration = moment.duration(time, `minutes`);
   const hours = duration.hours();
   const minutes = duration.minutes();
@@ -33,17 +37,17 @@ const formatTime = (time) => {
   return hours ? `${hours}h ${minutes}m` : `${minutes}m`;
 };
 
-const getFormattedTime = (time) => {
+export const getFormattedTime = (time) => {
   const duration = moment.duration(time, `minutes`);
 
   return {hours: Math.floor(duration.asHours()), minutes: duration.minutes()};
 };
 
-const formatCommentDateTime = (date, timeFrame) => {
+export const formatCommentDateTime = (date, timeFrame) => {
   return moment().diff(moment(date), `days`) < timeFrame ? moment(date).fromNow() : moment(date).format(`YYYY/MM/DD hh:mm`);
 };
 
-const sortMinToMax = (a, b) => {
+export const sortMinToMax = (a, b) => {
   if (a > b) {
     return 1;
   } else if (a < b) {
@@ -52,7 +56,7 @@ const sortMinToMax = (a, b) => {
   return 0;
 };
 
-const getUserRank = (watchedFilmsCount) => {
+export const getUserRank = (watchedFilmsCount) => {
   if (watchedFilmsCount > 0 && watchedFilmsCount <= 10) {
     return ProfileRank.NOVICE;
   } else if (watchedFilmsCount > 10 && watchedFilmsCount <= 20) {
@@ -63,6 +67,3 @@ const getUserRank = (watchedFilmsCount) => {
     return ``;
   }
 };
-
-
-export {formatDate, formatTime, getFormattedTime, formatCommentDateTime, getYear, getRandomArrayItem, getRandomDateTime, getRandomIntegerNumber, sortMinToMax, getUserRank};

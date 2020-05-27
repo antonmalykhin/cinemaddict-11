@@ -1,14 +1,21 @@
-import AbstractComponent from './abstract-component';
+import AbstractComponent from './abstract-component.js';
+import {toTitleCase} from '../utils/common.js';
+
+const FILTER_BUTTON_TAG = `A`;
+const SLICE_FROM = 1;
 
 const createFilterItem = (filter) => {
   const {name, count, isActive} = filter;
+
   return (
     `<a href="#${name.toLowerCase()}" class="main-navigation__item ${isActive ? `main-navigation__item--active` : ``}">${name === `All` ? `${name} movies` : `${name} <span class="main-navigation__item-count">${count}</span>`}</a>`
   );
 };
 
 const createFiltersTemplate = (filters) => {
-  const filterItems = filters.map((it) => createFilterItem(it)).join(`\n`);
+  const filterItems = filters
+    .map((it) => createFilterItem(it))
+    .join(`\n`);
 
   return (
     `<nav class="main-navigation">
@@ -20,7 +27,7 @@ const createFiltersTemplate = (filters) => {
   );
 };
 
-class Filters extends AbstractComponent {
+export default class Filters extends AbstractComponent {
   constructor(filters) {
     super();
 
@@ -52,18 +59,25 @@ class Filters extends AbstractComponent {
     activeFilterButton.classList.remove(`main-navigation__item--active`);
   }
 
+  _getFilterName(evt) {
+    const filterType = `${evt.target.hash}`.slice(SLICE_FROM, evt.target.hash.length);
+
+    return toTitleCase(filterType);
+  }
+
   setFilterClickHandler(handler) {
     this.getElement().querySelector(`.main-navigation__items`)
       .addEventListener(`click`, (evt) => {
 
-        if (evt.target.tagName !== `A`) {
+        if (evt.target.tagName !== FILTER_BUTTON_TAG) {
           return;
         }
 
         this._removeStatisticActiveClass();
 
-        let filterType = `${evt.target.hash}`.slice(1, evt.target.hash.length);
-        handler(filterType[0].toUpperCase() + filterType.slice(1));
+        let filterType = this._getFilterName(evt);
+
+        handler(filterType);
       });
   }
 
@@ -80,5 +94,3 @@ class Filters extends AbstractComponent {
       });
   }
 }
-
-export default Filters;

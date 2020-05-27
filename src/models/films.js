@@ -3,7 +3,7 @@ import {FilterType} from '../const.js';
 
 const EXTRA_FILMS_NUM = 2;
 
-class Films {
+export default class Films {
   constructor() {
     this._films = [];
     this._activeFilter = FilterType.ALL;
@@ -22,12 +22,18 @@ class Films {
 
   getCommentedFilms() {
     const films = this.getFilmsAll();
-    return films.slice().sort((a, b) => b.comments.length - a.comments.length).slice(0, EXTRA_FILMS_NUM);
+    return films
+      .slice()
+      .sort((a, b) => b.comments.length - a.comments.length)
+      .slice(0, EXTRA_FILMS_NUM);
   }
 
   getRatedFilms() {
     const films = this.getFilmsAll();
-    return films.slice().sort((a, b) => b.rating - a.rating).slice(0, EXTRA_FILMS_NUM);
+    return films
+      .slice()
+      .sort((a, b) => b.rating - a.rating)
+      .slice(0, EXTRA_FILMS_NUM);
   }
 
   setFilms(films) {
@@ -84,5 +90,3 @@ class Films {
     handlers.forEach((handler) => handler());
   }
 }
-
-export default Films;
