@@ -75,7 +75,7 @@ export default class Filters extends AbstractComponent {
 
         this._removeStatisticActiveClass();
 
-        let filterType = this._getFilterName(evt);
+        const filterType = this._getFilterName(evt);
 
         handler(filterType);
       });

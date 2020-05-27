@@ -23,20 +23,16 @@ const getAllGenre = (films) => {
 };
 
 const getGenresStatistic = (films) => {
-  let genresStat;
   const genres = getAllGenre(films);
 
   if (genres.length) {
-    genresStat = genres.reduce((acc, genre) => {
+    return genres.reduce((acc, genre) => {
       acc[genre] = (acc[genre] || 0) + 1;
       return acc;
     }, {});
-  } else {
-    genresStat = null;
   }
 
-
-  return genresStat;
+  return null;
 };
 
 const getMostWatchedGenre = (statistic) => {
@@ -114,27 +110,20 @@ const renderChart = (statisticCtx, films) => {
 };
 
 const getPastDate = (filter) => {
-  let pastDate;
   const currentDate = new Date();
 
   switch (filter) {
     case `today`:
-      pastDate = new Date(currentDate.setDate(currentDate.getDate() - 1));
-      break;
+      return new Date(currentDate.setDate(currentDate.getDate() - 1));
     case `week`:
-      pastDate = new Date(currentDate.setDate(currentDate.getDate() - 7));
-      break;
+      return new Date(currentDate.setDate(currentDate.getDate() - 7));
     case `month`:
-      pastDate = new Date(currentDate.setMonth(currentDate.getMonth() - 1));
-      break;
+      return new Date(currentDate.setMonth(currentDate.getMonth() - 1));
     case `year`:
-      pastDate = new Date(currentDate.setFullYear(currentDate.getFullYear() - 1));
-      break;
+      return new Date(currentDate.setFullYear(currentDate.getFullYear() - 1));
     default:
-      pastDate = null;
+      return null;
   }
-
-  return pastDate;
 };
 
 const getFilmsByFilter = (filter, films) => {

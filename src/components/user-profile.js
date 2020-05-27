@@ -4,7 +4,8 @@ import {getUserRank} from '../utils/common.js';
 const DEFAULT_AVATAR = `bitmap@2x.png`;
 
 const createUserProfileTemplate = (films) => {
-  const userRank = getUserRank(films.length);
+  const watchedFilms = films.filter((film) => film.isWatched);
+  const userRank = getUserRank(watchedFilms.length);
 
   return (
     `<section class="header__profile profile">

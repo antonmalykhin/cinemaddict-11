@@ -12,7 +12,7 @@ import StatisticComponent from './components/statistic.js';
 import UserProfileComponent from './components/user-profile.js';
 import {render, remove} from './utils/render.js';
 
-const AUTHORIZATION = `Basic asdfapoiruw035w9a0bna`;
+const AUTHORIZATION = `Basic wnbu509u4394sfdlkh`;
 const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 const STORE_PREFIX = `cinemaddict-localstorage`;
 const STORE_VER = `v1`;

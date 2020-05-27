@@ -3,7 +3,7 @@ import AbstractComponent from './abstract-component';
 const LOCALE = `ru-RU`;
 
 const createFooterStatisticsTemplate = (films) => {
-  let formattedFilms = new Intl.NumberFormat(LOCALE).format(films);
+  const formattedFilms = new Intl.NumberFormat(LOCALE).format(films);
   return `<p>${formattedFilms} movies inside</p>`;
 };
 
