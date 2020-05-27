@@ -36,7 +36,13 @@ const parseFormData = (formData) => {
 };
 
 const createCommentTemplate = (commentData) => {
-  const {id, emotion, comment, author, date} = commentData;
+  const {
+    id,
+    emotion,
+    comment,
+    author,
+    date
+  } = commentData;
 
   const commentFormattedDateTime = formatCommentDateTime(date, TIME_FRAME);
 
@@ -137,7 +143,9 @@ const createFilmDetailsTemplate = (film) => {
 
   const genreTitle = genres.length > 1 ? `Genres` : `Genre`;
 
-  const commentItems = comments
+  const sortedComments = comments.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  const commentItems = sortedComments
     .map((it) => createCommentTemplate(it))
     .join(`\n`);
 
