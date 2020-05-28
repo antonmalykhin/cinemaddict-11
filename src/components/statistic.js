@@ -1,6 +1,7 @@
 import AbstractSmartComponent from './abstract-smart-component.js';
 import {getFormattedTime, getUserRank} from '../utils/common.js';
 import {StatisticFilters} from '../const.js';
+import {configChart} from '../utils/chart-config.js';
 
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -15,11 +16,7 @@ const StatisticIndex = {
 };
 
 const getAllGenre = (films) => {
-  const genres = [];
-
-  films.forEach((film) => genres.push(...film.genres));
-
-  return genres;
+  return films.map((film) => film.genres.length ? film.genres : []);
 };
 
 const getGenresStatistic = (films) => {
@@ -48,65 +45,11 @@ const renderChart = (statisticCtx, films) => {
   const genreLabels = Object.keys(genresStatistic);
   const genreValues = Object.values(genresStatistic);
   const genresStatisticLength = genreLabels.length;
+  const chartConfig = configChart([ChartDataLabels], genreLabels, genreValues);
 
   statisticCtx.height = BAR_HEIGHT * genresStatisticLength;
 
-  return new Chart(statisticCtx, {
-    plugins: [ChartDataLabels],
-    type: `horizontalBar`,
-    data: {
-      labels: genreLabels,
-      datasets: [{
-        data: genreValues,
-        backgroundColor: `#ffe800`,
-        hoverBackgroundColor: `#ffe800`,
-        anchor: `start`,
-        barThickness: 24
-      }]
-    },
-    options: {
-      plugins: {
-        datalabels: {
-          font: {
-            size: 20
-          },
-          color: `#ffffff`,
-          anchor: `start`,
-          align: `start`,
-          offset: 40,
-        }
-      },
-      scales: {
-        yAxes: [{
-          ticks: {
-            fontColor: `#ffffff`,
-            padding: 100,
-            fontSize: 20
-          },
-          gridLines: {
-            display: false,
-            drawBorder: false
-          },
-        }],
-        xAxes: [{
-          ticks: {
-            display: false,
-            beginAtZero: true
-          },
-          gridLines: {
-            display: false,
-            drawBorder: false
-          },
-        }],
-      },
-      legend: {
-        display: false
-      },
-      tooltips: {
-        enabled: false
-      }
-    }
-  });
+  return new Chart(statisticCtx, chartConfig);
 };
 
 const getPastDate = (filter) => {
@@ -210,15 +153,30 @@ export default class Statistic extends AbstractSmartComponent {
     this._filmsModel = filmsModel;
     this._filter = DEFAULT_FILTER;
     this._films = null;
-
     this._chart = null;
 
     this._getWatchedFilms();
     this._renderChart();
   }
 
+  getTemplate() {
+    return createStatisticTemplate(this._getFilteredFilms(), this._filter, this._getUserRank());
+  }
+
+  rerender() {
+    super.rerender();
+
+    this._films = this._getWatchedFilms();
+
+    this._renderChart();
+  }
+
   setDefaultFilter() {
     this._filter = DEFAULT_FILTER;
+  }
+
+  recoveryListeners() {
+    this._onFilterChange();
   }
 
   _getWatchedFilms() {
@@ -232,22 +190,6 @@ export default class Statistic extends AbstractSmartComponent {
   _getUserRank() {
     const watchedFilms = this._getWatchedFilms();
     return getUserRank(watchedFilms.length);
-  }
-
-  getTemplate() {
-    return createStatisticTemplate(this._getFilteredFilms(), this._filter, this._getUserRank());
-  }
-
-  recoveryListeners() {
-    this._onFilterChange();
-  }
-
-  rerender() {
-    super.rerender();
-
-    this._films = this._getWatchedFilms();
-
-    this._renderChart();
   }
 
   _renderChart() {
