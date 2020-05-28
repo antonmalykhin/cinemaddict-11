@@ -25,18 +25,19 @@ const createButtonTemplate = (name, className, isActive = true) => {
   return `<button class="film-card__controls-item button film-card__controls-item--${className} ${isActive ? `` : `film-card__controls-item--active`}">${name}</button>`;
 };
 
-const createFilmCardTemplate = (film) => {
-  const {
-    poster,
-    title,
-    rating,
-    release,
-    runtime,
-    genres,
-    description,
-    comments
-  } = film;
-
+const createFilmCardTemplate = ({
+  poster,
+  title,
+  rating,
+  release,
+  runtime,
+  genres,
+  description,
+  comments,
+  isWatched,
+  inWatchlist,
+  isFavorite
+}) => {
   const filmGenre = genres.length ? genres[0] : ``;
 
   const filmDescription = description.length > DescriptionSettings.MAX_LENGTH ? description.slice(0, DescriptionSettings.SPLIT_LENGTH).concat(`...`) : description;
@@ -49,19 +50,19 @@ const createFilmCardTemplate = (film) => {
   const addToWatchButton = createButtonTemplate(
       ButtonsProperties.WATCHLIST.NAME,
       ButtonsProperties.WATCHLIST.CLASS_MODIFIER,
-      !film.inWatchlist
+      !inWatchlist
   );
 
   const markAsWachedButton = createButtonTemplate(
       ButtonsProperties.WATCHED.NAME,
       ButtonsProperties.WATCHED.CLASS_MODIFIER,
-      !film.isWatched
+      !isWatched
   );
 
   const markAsFavoriteButton = createButtonTemplate(
       ButtonsProperties.FAVORITE.NAME,
       ButtonsProperties.FAVORITE.CLASS_MODIFIER,
-      !film.isFavorite
+      !isFavorite
   );
 
   return (

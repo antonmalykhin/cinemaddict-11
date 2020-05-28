@@ -6,10 +6,10 @@ const EXTRA_FILMS_NUM = 2;
 export default class Films {
   constructor() {
     this._films = [];
-    this._activeFilter = FilterType.ALL;
-
     this._dataChangeHandlers = [];
     this._filterChangeHandlers = [];
+
+    this._activeFilter = FilterType.ALL;
   }
 
   getFilms() {
@@ -86,6 +86,10 @@ export default class Films {
     return this.updateFilm(film.id, film);
   }
 
+  _callHandlers(handlers) {
+    handlers.forEach((handler) => handler());
+  }
+
   addComment(comment, film) {
     film.comments = [].concat(film.comments, comment);
 
@@ -98,9 +102,5 @@ export default class Films {
 
   setDataChangeHandler(handler) {
     this._dataChangeHandlers.push(handler);
-  }
-
-  _callHandlers(handlers) {
-    handlers.forEach((handler) => handler());
   }
 }

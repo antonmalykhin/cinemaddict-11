@@ -9,8 +9,8 @@ export default class FilterController {
     this._filmsModel = filmsModel;
     this._onContentChange = onContentChange;
 
-    this._currentFilter = FilterType.ALL;
     this._filterComponent = null;
+    this._currentFilter = FilterType.ALL;
 
     this._onDataChange = this._onDataChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);

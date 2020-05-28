@@ -4,9 +4,7 @@ import {toTitleCase} from '../utils/common.js';
 const FILTER_BUTTON_TAG = `A`;
 const SLICE_FROM = 1;
 
-const createFilterItem = (filter) => {
-  const {name, count, isActive} = filter;
-
+const createFilterItem = ({name, count, isActive}) => {
   return (
     `<a href="#${name.toLowerCase()}" class="main-navigation__item ${isActive ? `main-navigation__item--active` : ``}">${name === `All` ? `${name} movies` : `${name} <span class="main-navigation__item-count">${count}</span>`}</a>`
   );

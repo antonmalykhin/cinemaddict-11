@@ -35,15 +35,13 @@ const parseFormData = (formData) => {
   };
 };
 
-const createCommentTemplate = (commentData) => {
-  const {
-    id,
-    emotion,
-    comment,
-    author,
-    date
-  } = commentData;
-
+const createCommentTemplate = ({
+  id,
+  emotion,
+  comment,
+  author,
+  date
+}) => {
   const commentFormattedDateTime = formatCommentDateTime(date, TIME_FRAME);
 
   return (
@@ -93,52 +91,46 @@ const createGenresTemplate = (genres) => {
     .join(`\n`);
 };
 
-const createFilmDetailsTemplate = (film) => {
-
-  const {
-    poster,
-    ageRate,
-    title,
-    productionTeam,
-    originalTitle,
-    rating,
-    release,
-    runtime,
-    genres,
-    country,
-    description,
-    comments
-  } = film;
-
-  const {
-    director,
-    writers,
-    actors
-  } = productionTeam;
-
+const createFilmDetailsTemplate = ({
+  poster,
+  ageRate,
+  title,
+  productionTeam,
+  originalTitle,
+  rating,
+  release,
+  runtime,
+  genres,
+  country,
+  description,
+  comments,
+  inWatchlist,
+  isWatched,
+  isFavorite
+}) => {
 
   const formattedReleaseDate = formatDate(release);
   const formattedDuration = formatTime(runtime);
 
-  const formattedWriters = writers.join(`, `);
-  const formattedActors = actors.join(`, `);
+  const formattedWriters = productionTeam.writers.join(`, `);
+  const formattedActors = productionTeam.actors.join(`, `);
 
   const addToWatchlistButton = createButtonsTemplate(
       ButtonsProperties.WATCHLIST.NAME,
       ButtonsProperties.WATCHLIST.CLASS_MODIFIER,
-      !film.inWatchlist
+      !inWatchlist
   );
 
   const alreadyWatchedButton = createButtonsTemplate(
       ButtonsProperties.WATCHED.NAME,
       ButtonsProperties.WATCHED.CLASS_MODIFIER,
-      !film.isWatched
+      !isWatched
   );
 
   const addToFavoritesButton = createButtonsTemplate(
       ButtonsProperties.FAVORITE.NAME,
       ButtonsProperties.FAVORITE.CLASS_MODIFIER,
-      !film.isFavorite
+      !isFavorite
   );
 
   const genreTitle = genres.length > 1 ? `Genres` : `Genre`;
@@ -181,7 +173,7 @@ const createFilmDetailsTemplate = (film) => {
             <table class="film-details__table">
               <tr class="film-details__row">
                 <td class="film-details__term">Director</td>
-                <td class="film-details__cell">${director}</td>
+                <td class="film-details__cell">${productionTeam.director}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Writers</td>
@@ -264,24 +256,15 @@ export default class FilmDetails extends AbstractComponent {
     return createFilmDetailsTemplate(this._film);
   }
 
-  setCloseButtonClickHandler(handler) {
-    this.getElement().querySelector(`.film-details__close-btn`)
-      .addEventListener(`click`, handler);
-  }
+  getData() {
+    const form = this.getElement().querySelector(`.film-details__inner`);
+    const formData = new FormData(form);
 
-  setAddToWatchlistClickHandler(handler) {
-    this.getElement().querySelector(`.film-details__control-label--watchlist`)
-      .addEventListener(`click`, handler);
-  }
-
-  setAlreadyWatchedClickHandler(handler) {
-    this.getElement().querySelector(`.film-details__control-label--watched`)
-      .addEventListener(`click`, handler);
-  }
-
-  setAddToFavoritesClickHandler(handler) {
-    this.getElement().querySelector(`.film-details__control-label--favorite`)
-      .addEventListener(`click`, handler);
+    return {
+      formElements: form.querySelectorAll(`input, textarea, button`),
+      comment: parseFormData(formData),
+      film: this._film
+    };
   }
 
   clearFormData() {
@@ -311,6 +294,26 @@ export default class FilmDetails extends AbstractComponent {
       });
   }
 
+  setCloseButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__close-btn`)
+      .addEventListener(`click`, handler);
+  }
+
+  setAddToWatchlistClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--watchlist`)
+      .addEventListener(`click`, handler);
+  }
+
+  setAlreadyWatchedClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--watched`)
+      .addEventListener(`click`, handler);
+  }
+
+  setAddToFavoritesClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--favorite`)
+      .addEventListener(`click`, handler);
+  }
+
   setOnDeleteButtonCLickHandler(handler) {
     const deleteButton = this.getElement().querySelectorAll(`.film-details__comment-delete`);
 
@@ -329,16 +332,5 @@ export default class FilmDetails extends AbstractComponent {
   setOnInputCommentHandler(handler) {
     const commentField = this.getElement().querySelector(`.film-details__comment-input`);
     commentField.addEventListener(`input`, handler);
-  }
-
-  getData() {
-    const form = this.getElement().querySelector(`.film-details__inner`);
-    const formData = new FormData(form);
-
-    return {
-      formElements: form.querySelectorAll(`input, textarea, button`),
-      comment: parseFormData(formData),
-      film: this._film
-    };
   }
 }
